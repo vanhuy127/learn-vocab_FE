@@ -1,0 +1,31 @@
+export const MESSAGE_CODE = {
+  //auth
+  MISSING_CREDENTIALS: 'Thiếu thông tin đăng nhập',
+  INVALID_CREDENTIALS: 'Thông tin đăng nhập không hợp lệ',
+  ACCOUNT_IS_LOCKED: 'Tài khoản đã bị khóa',
+  COMPANY_NOT_APPROVED: 'Công ty chưa được phê duyệt',
+  INVALID_OR_EXPIRED_TOKEN: 'Token không hợp lệ hoặc đã hết hạn',
+  TOKEN_EXPIRED: 'Token đã hết hạn',
+  INVALID_TOKEN: 'Token không hợp lệ',
+  UNAUTHORIZED: 'Không được cấp quyền',
+  TOKEN_REQUIRED: 'Yêu cầu token',
+  JWT_SECRET_NOT_SET: 'Chưa thiết lập JWT secret',
+  FORBIDDEN: 'Truy cập bị cấm',
+  INVALID_PASSWORD: 'Mật khẩu không đúng',
+  //sever
+  INTERNAL_SERVER_ERROR: 'Lỗi máy chủ nội bộ',
+  //success
+  LOGIN_SUCCESS: 'Đăng nhập thành công',
+  LOGOUT_SUCCESS: 'Đăng xuất thành công',
+  CREATED_SUCCESS: 'Tạo mới thành công',
+  REGISTER_SUCCESS: 'Đăng ký thành công',
+  UPDATED_SUCCESS: 'Cập nhật thành công',
+  DELETED_SUCCESS: 'Xóa thành công',
+  GET_ALL_SUCCESS: 'Lấy danh sách thành công',
+  GET_SUCCESS: 'Lấy dữ liệu thành công',
+  NOT_FOUND: 'Không tìm thấy',
+  COMPANY_NOT_FOUND: 'Không tìm thấy công ty',
+  PASSWORD_RESET_EMAIL_SENT: 'Đã gửi email đặt lại mật khẩu',
+  //fail
+  EMAIL_SEND_FAILED: 'Gửi email thất bại',
+};
