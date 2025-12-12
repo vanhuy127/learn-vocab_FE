@@ -84,9 +84,9 @@ const createAxiosInstance = (
           removeLocalStorage(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
           removeLocalStorage(LOCAL_STORAGE_KEY.REFRESH_TOKEN);
         }
-        const { error_code } = error.response?.data as IResponse<null>;
-        if (error_code) {
-          const errorKey = MESSAGE_CODE[error_code as keyof typeof MESSAGE_CODE];
+        const { message_code } = error.response?.data as IResponse<null>;
+        if (message_code) {
+          const errorKey = MESSAGE_CODE[message_code as keyof typeof MESSAGE_CODE];
           toast.error(errorKey);
         }
       }

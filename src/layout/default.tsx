@@ -9,7 +9,7 @@ export const DefaultLayout: React.FC<PropsWithChildren> = () => {
   const outlet = useOutlet();
 
   return (
-    <div>
+    <div className="min-h-screen transition-colors duration-300">
       <Header />
       <div>{outlet}</div>
       <Footer />

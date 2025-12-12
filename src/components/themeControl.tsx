@@ -1,7 +1,6 @@
 import { Monitor, Moon, Sun } from 'lucide-react';
 
-import type { Theme } from '@/components/themeProvider';
-import { useTheme } from '@/components/themeProvider';
+import { type Theme, useTheme } from '@/components/themeProvider';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -40,7 +39,7 @@ const ThemeControl = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="w-9">
+        <Button variant="outline" size="icon" className="bg-muted w-9">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>

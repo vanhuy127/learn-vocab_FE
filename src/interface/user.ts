@@ -3,13 +3,19 @@ import type { Role } from '@/types';
 export interface IUserAccount {
   id: string;
   email: string;
+  userName: string;
   role: Role;
+}
+
+export interface IUserAccountResponse extends IUserAccount {
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface IUser {
   id: string;
   email: string;
-  username: string;
+  userName: string;
   createdAt: Date;
   updatedAt: Date;
 }
