@@ -1,5 +1,16 @@
-// const Hero = lazy(() => import('@/components/user/home/hero'));
+import { lazy } from 'react';
 
+const Hero = lazy(() => import('@/components/user/home/Hero'));
+const Features = lazy(() => import('@/components/user/home/Features'));
+const Courses = lazy(() => import('@/components/user/home/Courses'));
+const CTA = lazy(() => import('@/components/user/home/CTA'));
 export default function Home() {
-  return <div className="min-h-screen bg-gray-50 transition-colors duration-300 dark:bg-gray-900"></div>;
+  return (
+    <div className="min-h-screen">
+      <Hero />
+      <Features />
+      <Courses />
+      <CTA />
+    </div>
+  );
 }

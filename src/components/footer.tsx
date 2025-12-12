@@ -1,93 +1,113 @@
-import { Code } from 'lucide-react';
-import { Link } from 'react-router-dom';
-
-import { Badge } from './ui/badge';
+import { Mail, MapPin, Phone } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="border-t border-gray-800 bg-gray-900 py-12 text-white transition-colors duration-300 dark:border-gray-900 dark:bg-gray-950">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div>
-            <div className="mb-4 flex items-center">
-              <Code className="h-8 w-8 text-cyan-400" />
-              <span className="ml-2 text-xl font-bold">DevJobs</span>
-              <Badge className="ml-2 border-cyan-500/30 bg-cyan-500/20 text-cyan-300">IT</Badge>
+    <footer className="bg-card/50 border-border border-t py-16 sm:py-20">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* Brand Section */}
+          <div className="space-y-4">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-foreground text-xl font-bold">
+                Yuh<span className="text-white dark:text-[#31694e]">Nav</span> Learning
+              </span>
             </div>
-            <p className="mb-4 text-gray-400">Nền tảng tuyển dụng IT hàng đầu tại Việt Nam</p>
-            <div className="flex space-x-4">
-              <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-gray-800 transition-colors hover:bg-cyan-500 dark:bg-gray-900">
-                <span className="text-xs">f</span>
-              </div>
-              <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-gray-800 transition-colors hover:bg-cyan-500 dark:bg-gray-900">
-                <span className="text-xs">in</span>
-              </div>
-              <div className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-gray-800 transition-colors hover:bg-cyan-500 dark:bg-gray-900">
-                <span className="text-xs">tw</span>
-              </div>
-            </div>
+            <p className="text-foreground/60 text-sm leading-relaxed">
+              Nền tảng học từ vựng giúp bạn nắm vững ngôn ngữ.
+            </p>
           </div>
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-cyan-400">Dành cho Developers</h3>
-            <ul className="space-y-2 text-gray-400">
+
+          {/* Quick Links */}
+          <div className="space-y-4">
+            <h4 className="text-foreground font-semibold">Khóa học</h4>
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Tìm việc IT
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  Tiếng Anh
+                </a>
               </li>
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Tạo CV Tech
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  Tiếng Nhật
+                </a>
               </li>
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Lộ trình học
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  Tiếng Pháp
+                </a>
               </li>
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Salary Calculator
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  Tiếng Đức
+                </a>
               </li>
             </ul>
           </div>
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-cyan-400">Dành cho Công ty</h3>
-            <ul className="space-y-2 text-gray-400">
+
+          {/* Resources */}
+          <div className="space-y-4">
+            <h4 className="text-foreground font-semibold">Tài nguyên</h4>
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Đăng tin tuyển dụng
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  Blog
+                </a>
               </li>
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Tìm IT talent
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  Hướng dẫn
+                </a>
               </li>
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Tech hiring solutions
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  FAQs
+                </a>
               </li>
               <li>
-                <Link to="#" className="transition-colors hover:text-cyan-400">
-                  Pricing
-                </Link>
+                <a href="#" className="text-foreground/60 hover:text-primary transition">
+                  Cộng đồng
+                </a>
               </li>
             </ul>
           </div>
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-cyan-400">Liên hệ</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li>Email: hello@devjobs.vn</li>
-              <li>Hotline: 1900 DEV JOBS</li>
-              <li>Địa chỉ: Tech Hub, Q1, TP.HCM</li>
+
+          {/* Contact */}
+          <div className="space-y-4">
+            <h4 className="text-foreground font-semibold">Liên hệ</h4>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-start gap-2">
+                <Mail className="text-primary mt-0.5 h-5 w-5 shrink-0" />
+                <span className="text-foreground/60">support@vocabmaster.com</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Phone className="text-primary mt-0.5 h-5 w-5 shrink-0" />
+                <span className="text-foreground/60">+1 (555) 123-4567</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <MapPin className="text-primary mt-0.5 h-5 w-5 shrink-0" />
+                <span className="text-foreground/60">San Francisco, CA</span>
+              </li>
             </ul>
           </div>
         </div>
-        <div className="mt-8 border-t border-gray-800 pt-8 text-center text-gray-400 dark:border-gray-900">
-          <p>&copy; 2024 DevJobs. Made with ❤️ for Vietnamese developers.</p>
+
+        {/* Divider */}
+        <div className="border-border my-8 border-t" />
+
+        {/* Bottom Footer */}
+        <div className="text-foreground/60 flex flex-col items-center justify-between gap-4 text-sm sm:flex-row">
+          <p>&copy; 2025 VocabMaster. Tất cả các quyền được bảo lưu.</p>
+          <div className="flex gap-6">
+            <a href="#" className="hover:text-primary transition">
+              Chính sách bảo mật
+            </a>
+            <a href="#" className="hover:text-primary transition">
+              Điều khoản dịch vụ
+            </a>
+            <a href="#" className="hover:text-primary transition">
+              Liên hệ
+            </a>
+          </div>
         </div>
       </div>
     </footer>
