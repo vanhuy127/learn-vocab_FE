@@ -4,6 +4,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
+import { cn } from '@/lib/utils';
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -39,36 +41,43 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
   );
 
   return (
-    <div className="flex items-center justify-end gap-4 sm:flex-row">
+    <div className="flex items-center justify-end">
       <div className="flex items-center gap-2">
+        {/* Prev */}
         <Button
           variant="outline"
           size="sm"
-          onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
-          className="border-2 hover:border-cyan-300 hover:bg-cyan-50"
+          onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+          className={cn(
+            'gap-1',
+            'bg-background text-foreground border-border',
+            'hover:bg-muted hover:text-foreground',
+            'disabled:hover:bg-background disabled:opacity-50',
+          )}
         >
           <ChevronLeft className="h-4 w-4" />
           Trước
         </Button>
 
+        {/* Pages */}
         <div className="flex items-center gap-1">
           {pages.map((page, idx) =>
             page === '...' ? (
-              <span key={`ellipsis-${idx}`} className="px-2 text-sm text-gray-500">
+              <span key={`ellipsis-${idx}`} className="text-muted-foreground px-2 text-sm">
                 ...
               </span>
             ) : (
               <Button
-                key={idx}
-                variant={currentPage === page ? 'default' : 'outline'}
+                key={page}
                 size="sm"
                 onClick={() => handlePageChange(page)}
-                className={
+                className={cn(
+                  'min-w-9',
                   currentPage === page
-                    ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white'
-                    : 'border-2 hover:border-cyan-300 hover:bg-cyan-50'
-                }
+                    ? 'bg-primary text-primary-foreground hover:bg-primary'
+                    : 'bg-background text-foreground border-border hover:bg-muted border',
+                )}
               >
                 {page}
               </Button>
@@ -76,12 +85,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
           )}
         </div>
 
+        {/* Next */}
         <Button
           variant="outline"
           size="sm"
-          onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages}
-          className="border-2 hover:border-cyan-300 hover:bg-cyan-50"
+          onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+          className={cn(
+            'gap-1',
+            'bg-background text-foreground border-border',
+            'hover:bg-muted hover:text-foreground',
+            'disabled:hover:bg-background disabled:opacity-50',
+          )}
         >
           Sau
           <ChevronRight className="h-4 w-4" />

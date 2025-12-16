@@ -30,9 +30,9 @@ export default function Header() {
   });
 
   const navigationItems = [
-    { name: 'Tính năng', href: '#features' },
-    { name: 'Khóa học', href: '#courses' },
-    { name: 'Câu hỏi', href: '#faq' },
+    { name: 'Trang chủ', href: ROUTE_PATH.USER.HOME },
+    { name: 'Tìm kiếm', href: ROUTE_PATH.USER.SEARCH },
+    { name: 'Thư viện của tôi', href: ROUTE_PATH.USER.LIBRARY },
   ];
 
   const userMenuItems = {
@@ -123,7 +123,7 @@ export default function Header() {
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-foreground/70 hover:text-primary font-medium transition text-center"
+                  className="text-foreground/70 hover:text-primary text-center font-medium transition"
                 >
                   {item.name}
                 </a>

@@ -6,6 +6,8 @@ export const ROUTE_PATH = {
   USER: {
     ACCOUNT: '/account',
     HOME: '/',
+    SEARCH: '/search',
+    LIBRARY: '/library',
   },
   ADMIN: {
     DASHBOARD: '/admin/dashboard',

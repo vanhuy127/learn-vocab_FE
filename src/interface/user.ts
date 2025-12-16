@@ -19,3 +19,10 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IUserSearch extends IUser {
+  _count: {
+    folders: number;
+    studySets: number;
+  };
+}

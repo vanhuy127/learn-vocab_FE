@@ -8,11 +8,15 @@ import { DefaultLayout } from '@/layout/default';
 import Unauthorized from '@/pages/Unauthorized';
 
 const Home = lazy(() => import('@/pages/user/Home'));
+const Search = lazy(() => import('@/pages/user/Search'));
 
 const GlobalRoutes: RouteObject[] = [
   {
     element: <DefaultLayout />,
-    children: [{ path: ROUTE_PATH.USER.HOME, element: <Home /> }],
+    children: [
+      { path: ROUTE_PATH.USER.HOME, element: <Home /> },
+      { path: ROUTE_PATH.USER.SEARCH, element: <Search /> },
+    ],
   },
   {
     element: <BlankLayout />,

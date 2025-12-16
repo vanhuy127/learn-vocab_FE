@@ -5,5 +5,8 @@ export const END_POINT = {
     REFRESH_TOKEN: '/auth/refresh-token',
     LOGIN: '/auth/login',
   },
+  USER: {
+    SEARCH: '/search',
+  },
   ADMIN: {},
 };
