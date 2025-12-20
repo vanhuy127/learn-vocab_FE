@@ -8,7 +8,13 @@ import { AdminLayout } from '@/layout/admin';
 import { DefaultLayout } from '@/layout/default';
 import { useAuthStore } from '@/store';
 
+//shared
+const MyLibrary = lazy(() => import('@/pages/user/MyLibrary'));
+
+//user page
 const Account = lazy(() => import('@/pages/user/Account'));
+
+//admin page
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
 
 const PrivateRoute = React.memo(({ children, roles }: { children: React.ReactNode; roles?: string[] }) => {
@@ -23,6 +29,14 @@ const PrivateRoute = React.memo(({ children, roles }: { children: React.ReactNod
 PrivateRoute.displayName = 'PrivateRoute';
 
 const PrivateRoutes: RouteObject[] = [
+  {
+    element: (
+      <PrivateRoute roles={[ROLE.USER, ROLE.ADMIN]}>
+        <DefaultLayout />
+      </PrivateRoute>
+    ),
+    children: [{ path: ROUTE_PATH.USER.LIBRARY, element: <MyLibrary /> }],
+  },
   {
     element: (
       <PrivateRoute roles={[ROLE.USER]}>

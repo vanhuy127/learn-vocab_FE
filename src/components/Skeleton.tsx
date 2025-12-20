@@ -32,11 +32,11 @@ interface Props {
 
 const SkeletonList = ({ count = 7, Component }: Props) => {
   return (
-    <>
+    <div className="space-y-4">
       {Array.from({ length: count }).map((_, index) => (
         <Component key={index} />
       ))}
-    </>
+    </div>
   );
 };
 
