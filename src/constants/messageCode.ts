@@ -1,4 +1,14 @@
 export const MESSAGE_CODE = {
+  //validate
+  VALIDATION_ERROR: 'Lỗi xác thực',
+  INVALID_DATE_FORMAT: 'Định dạng ngày không hợp lệ',
+  EMAIL_REQUIRED: 'Email là bắt buộc',
+  EMAIL_ALREADY_EXISTS: 'Email đã tồn tại',
+  PHONE_ALREADY_EXISTS: 'Số điện thoại đã tồn tại',
+  NAME_ALREADY_EXISTS: 'Tên đã tồn tại',
+  ID_REQUIRED: 'Thiếu ID',
+  IN_USE: 'Đang được sử dụng',
+  FILE_REQUIRED: 'Tệp tin là bắt buộc',
   //auth
   MISSING_CREDENTIALS: 'Thiếu thông tin đăng nhập',
   INVALID_CREDENTIALS: 'Thông tin đăng nhập không hợp lệ',

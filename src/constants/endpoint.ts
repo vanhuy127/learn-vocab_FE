@@ -12,6 +12,10 @@ export const END_POINT = {
     },
     FOLDER: {
       CURRENT_LIST: '/folder/current-user',
+      CREATE: '/folder',
+      GET_BY_ID: (id: string) => `/folder/${id}`,
+      EDIT: (id: string) => `/folder/${id}`,
+      DELETE: (id: string) => `/folder/${id}`,
     },
     TEST: {
       CURRENT_LIST: '/test/current-user',

@@ -11,6 +11,7 @@ import { useFolderService } from '@/service/folder.service';
 import { formatDate } from '@/utils';
 
 import SearchEmpty from '../SearchEmpty';
+import FolderActionsDropdown from './FolderActionsDropdown';
 
 interface IProps {
   search: string;
@@ -49,9 +50,12 @@ const FoldersTab = (props: IProps) => {
       {folders.map((folder, index) => (
         <div
           key={folder.id}
-          className="bg-card border-border hover:border-accent group cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className="bg-card border-border hover:border-accent group relative cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           style={{ animationDelay: `${index * 50}ms` }}
         >
+          <div className="absolute top-4 right-4">
+            <FolderActionsDropdown folderId={folder.id} />
+          </div>
           <div className="mb-4 flex items-start gap-4">
             <div className="from-accent/20 to-accent/5 rounded-xl bg-linear-to-br p-3 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
               <FolderOpen className="text-accent h-6 w-6" />

@@ -18,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import AddControl from './user/AddControl';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,6 +68,7 @@ export default function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden items-center gap-4 md:flex">
+            <AddControl />
             <ThemeControl />
             {user ? (
               <DropdownMenu>
@@ -106,6 +108,7 @@ export default function Header() {
 
           {/* Mobile Buttons */}
           <div className="flex items-center gap-2 md:hidden">
+            <AddControl />
             <ThemeControl />
 
             <button onClick={() => setIsOpen(!isOpen)} className="bg-muted hover:bg-muted/70 rounded-lg p-2 transition">
