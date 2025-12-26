@@ -35,14 +35,14 @@ const SortableTermItem = ({ id, index, onRemove, disableRemove }: Props) => {
         <div className="grid flex-1 gap-4 md:grid-cols-2">
           <FormItemCustom
             form={form}
-            name={`terms.${index}.term`}
+            name={`items.${index}.word`}
             label="Từ"
             renderInput={(field) => <Input {...field} value={field.value as string} placeholder="Từ vựng" />}
           />
 
           <FormItemCustom
             form={form}
-            name={`terms.${index}.definition`}
+            name={`items.${index}.meaning`}
             label="Định nghĩa"
             renderInput={(field) => <Input {...field} value={field.value as string} placeholder="Định nghĩa" />}
           />
@@ -50,7 +50,7 @@ const SortableTermItem = ({ id, index, onRemove, disableRemove }: Props) => {
           <div className="md:col-span-2">
             <FormItemCustom
               form={form}
-              name={`terms.${index}.note`}
+              name={`items.${index}.note`}
               label="Ghi chú"
               renderInput={(field) => (
                 <Textarea

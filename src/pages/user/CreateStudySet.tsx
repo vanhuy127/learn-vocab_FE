@@ -22,11 +22,11 @@ const CreateSetPage = () => {
       title: '',
       description: '',
       accessLevel: ACCESS_LEVEL.PUBLIC,
-      language: '',
+      languageId: '',
       folderId: 'none',
-      terms: [
-        { id: '1', term: '', definition: '', note: '' },
-        { id: '2', term: '', definition: '', note: '' },
+      items: [
+        { id: '1', word: '', meaning: '', note: '' },
+        { id: '2', word: '', meaning: '', note: '' },
       ],
     },
   });
@@ -40,12 +40,20 @@ const CreateSetPage = () => {
   });
 
   const onSubmit = (data: CreateStudySetFormValues) => {
-    mutation.mutate(data);
+    const payload = {
+      ...data,
+      items: data.items.map((item, index) => ({
+        ...item,
+        position: index + 1,
+      })),
+    };
+
+    mutation.mutate(payload);
   };
 
   const { fields, append, remove, move } = useFieldArray({
     control: form.control,
-    name: 'terms',
+    name: 'items',
   });
 
   return (
@@ -66,8 +74,8 @@ const CreateSetPage = () => {
             onAdd={() =>
               append({
                 id: Date.now().toString(),
-                term: '',
-                definition: '',
+                word: '',
+                meaning: '',
               })
             }
           />

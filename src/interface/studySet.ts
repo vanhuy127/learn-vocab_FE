@@ -1,5 +1,6 @@
 import { AccessLevel } from '@/types';
 
+import { IFolder } from './folder';
 import { ILanguage } from './language';
 
 export interface IStudySet {
@@ -8,6 +9,7 @@ export interface IStudySet {
   description?: string;
   language: ILanguage;
   accessLevel: AccessLevel;
+  folder?: IFolder;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,11 +22,11 @@ export interface IStudySetSearch extends IStudySet {
 
 export interface VocabTerm {
   id: string;
-  term: string;
-  definition: string;
+  word: string;
+  meaning: string;
   note?: string;
 }
 
 export interface IStudySetExtended extends IStudySet {
-  terms: VocabTerm[];
+  items: VocabTerm[];
 }

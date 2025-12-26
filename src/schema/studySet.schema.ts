@@ -4,8 +4,8 @@ import { ACCESS_LEVEL_ARRAY } from '@/constants';
 
 export const vocabTermSchema = z.object({
   id: z.string(),
-  term: z.string().trim().min(1, 'Từ vựng không được để trống'),
-  definition: z.string().trim().min(1, 'Định nghĩa không được để trống'),
+  word: z.string().trim().min(1, 'Từ vựng không được để trống'),
+  meaning: z.string().trim().min(1, 'Định nghĩa không được để trống'),
   note: z.string().trim().max(255, 'Ghi chú tối đa 255 ký tự').optional().or(z.literal('')),
 });
 
@@ -15,9 +15,9 @@ export const createStudySetSchema = z.object({
   accessLevel: z.enum([...ACCESS_LEVEL_ARRAY] as [string, ...string[]], {
     errorMap: () => ({ message: 'Loại công việc không hợp lệ' }),
   }),
-  language: z.string().min(1, 'Vui lòng chọn ngôn ngữ'),
+  languageId: z.string().min(1, 'Vui lòng chọn ngôn ngữ'),
   folderId: z.string().optional(),
-  terms: z.array(vocabTermSchema).min(2, 'Cần tối thiểu 2 từ vựng'),
+  items: z.array(vocabTermSchema).min(2, 'Cần tối thiểu 2 từ vựng'),
 });
 
 export type CreateStudySetFormValues = z.infer<typeof createStudySetSchema>;

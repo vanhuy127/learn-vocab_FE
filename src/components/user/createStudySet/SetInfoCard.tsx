@@ -74,7 +74,7 @@ const SetInfoCard = () => {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <FormItemCustom
             form={form}
-            name="language"
+            name="languageId"
             label="Ngôn ngữ"
             renderInput={({ value, onChange }) => (
               <ComboboxFilter
