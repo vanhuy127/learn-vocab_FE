@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store';
 
 //shared
 const MyLibrary = lazy(() => import('@/pages/user/MyLibrary'));
+const CreateStudySet = lazy(() => import('@/pages/user/CreateStudySet'));
 
 //user page
 const Account = lazy(() => import('@/pages/user/Account'));
@@ -35,7 +36,10 @@ const PrivateRoutes: RouteObject[] = [
         <DefaultLayout />
       </PrivateRoute>
     ),
-    children: [{ path: ROUTE_PATH.USER.LIBRARY, element: <MyLibrary /> }],
+    children: [
+      { path: ROUTE_PATH.USER.LIBRARY, element: <MyLibrary /> },
+      { path: ROUTE_PATH.USER.STUDY_SET.CREATE, element: <CreateStudySet /> },
+    ],
   },
   {
     element: (

@@ -69,7 +69,7 @@ const StudySetsTab = (props: IProps) => {
               <span className="text-foreground text-base font-bold">{set._count.items}</span> từ
             </span>
             <span className="bg-primary/10 text-primary border-primary/20 rounded-lg border px-3 py-1.5 text-xs font-semibold">
-              {set.language}
+              {set.language.name}
             </span>
           </div>
 

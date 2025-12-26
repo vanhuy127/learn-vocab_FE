@@ -1,4 +1,5 @@
 import { BookPlus, FolderPlus, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -8,20 +9,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { MODAL_TYPE } from '@/constants';
+import { MODAL_TYPE, ROUTE_PATH } from '@/constants';
 import { useModalStore } from '@/store';
 
 const AddControl = () => {
   const { openModal } = useModalStore();
+  const navigate = useNavigate();
 
   const handleAddFolder = () => {
     openModal(MODAL_TYPE.CREATE_FOLDER);
   };
 
   const handleAddStudySet = () => {
-    // mở modal tạo học phần
-    //TODO: link to study set
-    console.log('Add new study set');
+    navigate(ROUTE_PATH.USER.STUDY_SET.CREATE);
   };
 
   return (

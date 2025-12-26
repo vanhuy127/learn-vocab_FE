@@ -22,7 +22,7 @@ const StudySetSearchItem = ({ item }: { item: IStudySetSearch }) => {
           </span>
 
           <span className="bg-primary/10 text-primary border-primary/20 rounded-lg border px-3 py-1 text-xs font-semibold">
-            {item.language}
+            {item.language.name}
           </span>
         </>
       }

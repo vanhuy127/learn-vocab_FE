@@ -5,10 +5,16 @@ export const END_POINT = {
     REFRESH_TOKEN: '/auth/refresh-token',
     LOGIN: '/auth/login',
   },
+  SHARED: {
+    LANGUAGE: {
+      GET_ALL: '/language',
+    },
+  },
   USER: {
     SEARCH: '/search',
     STUDY_SET: {
       CURRENT_LIST: '/study-set/current-user',
+      CREATE: '/study-set',
     },
     FOLDER: {
       CURRENT_LIST: '/folder/current-user',
