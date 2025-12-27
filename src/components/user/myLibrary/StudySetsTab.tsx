@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { BookOpen, Calendar } from 'lucide-react';
+import { BookOpen, Calendar, Clock } from 'lucide-react';
 
 import SkeletonList, { SearchItemSkeleton } from '@/components/Skeleton';
 
@@ -11,6 +11,7 @@ import { useStudySetService } from '@/service/studySet.service';
 import { formatDate } from '@/utils';
 
 import SearchEmpty from '../SearchEmpty';
+import StudySetActionsDropdown from './StudySetActionsDropdown';
 
 interface IProps {
   search: string;
@@ -49,9 +50,12 @@ const StudySetsTab = (props: IProps) => {
       {studySets.map((set, index) => (
         <div
           key={set.id}
-          className="bg-card border-border hover:border-primary group cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className="bg-card border-border hover:border-primary group relative cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           style={{ animationDelay: `${index * 50}ms` }}
         >
+          <div className="absolute top-4 right-4">
+            <StudySetActionsDropdown id={set.id} />
+          </div>
           <div className="mb-4 flex items-start gap-4">
             <div className="from-primary/20 to-primary/5 rounded-xl bg-linear-to-br p-3 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
               <BookOpen className="text-primary h-6 w-6" />
@@ -77,6 +81,11 @@ const StudySetsTab = (props: IProps) => {
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               <span>Tạo vào {formatDate(set.createdAt, DATE_PATTERN.DATE_TIME)}</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>Cập nhật cuối vào {formatDate(set.updatedAt, DATE_PATTERN.DATE_TIME)}</span>
             </div>
           </div>
         </div>

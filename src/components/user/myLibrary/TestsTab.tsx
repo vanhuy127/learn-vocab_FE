@@ -74,9 +74,16 @@ const TestsTab = (props: IProps) => {
             </span>
           </div>
 
-          <div className="text-muted-foreground border-border flex items-center border-t pt-4 text-xs">
-            <Calendar className="mr-2 h-4 w-4" />
-            <span>Tạo vào {formatDate(test.createdAt, DATE_PATTERN.DATE_TIME)}</span>
+          <div className="text-muted-foreground border-border flex items-center justify-between border-t pt-4 text-xs">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span>Tạo vào {formatDate(test.createdAt, DATE_PATTERN.DATE_TIME)}</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>Cập nhật cuối vào {formatDate(test.updatedAt, DATE_PATTERN.DATE_TIME)}</span>
+            </div>
           </div>
         </div>
       ))}

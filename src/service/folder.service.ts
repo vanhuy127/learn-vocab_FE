@@ -39,7 +39,7 @@ export const useFolderService = () => {
   };
 
   const editFolder = async (id: string, data: FolderFormValues) => {
-    const res: IResponse<IFolder> = await axiosClient.patch(END_POINT.USER.FOLDER.EDIT(id), data);
+    const res: IResponse<IFolder> = await axiosClient.put(END_POINT.USER.FOLDER.EDIT(id), data);
     if (!res.success) {
       toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
 

@@ -27,8 +27,48 @@ export const useStudySetService = () => {
     }
   };
 
+  const getStudySetById = async (id: string) => {
+    const res: IResponse<IStudySetExtended> = await axiosClient.get(END_POINT.USER.STUDY_SET.GET_BY_ID(id));
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    } else {
+      return res.data;
+    }
+  };
+
+  const editStudySet = async (id: string, data: CreateStudySetFormValues) => {
+    const res: IResponse<IStudySetExtended> = await axiosClient.put(END_POINT.USER.STUDY_SET.EDIT(id), data);
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    } else {
+      toast.success(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return res.data;
+    }
+  };
+
+  const deleteStudySet = async (id: string) => {
+    const res: IResponse<boolean> = await axiosClient.delete(END_POINT.USER.STUDY_SET.DELETE(id));
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    } else {
+      toast.success(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return res.data;
+    }
+  };
+
   return {
     getStudySetCurrent,
     createStudySet,
+    getStudySetById,
+    editStudySet,
+    deleteStudySet,
   };
 };

@@ -15,6 +15,9 @@ export const END_POINT = {
     STUDY_SET: {
       CURRENT_LIST: '/study-set/current-user',
       CREATE: '/study-set',
+      GET_BY_ID: (id: string) => `/study-set/${id}`,
+      EDIT: (id: string) => `/study-set/${id}`,
+      DELETE: (id: string) => `/study-set/${id}`,
     },
     FOLDER: {
       CURRENT_LIST: '/folder/current-user',

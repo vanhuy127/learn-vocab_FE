@@ -3,6 +3,7 @@ import { useModalStore } from '@/store';
 
 import CreateFolderModal from './user/CreateFolderModal';
 import ConfirmDeleteFolderModal from './user/myLibrary/ConfirmDeleteFolderModal';
+import ConfirmDeleteStudySetModal from './user/myLibrary/ConfirmDeleteStudySetModal';
 import EditFolderModal from './user/myLibrary/EditFolderModal';
 
 const ModalRoot = () => {
@@ -19,6 +20,9 @@ const ModalRoot = () => {
 
     case MODAL_TYPE.CONFIRM_DELETE_FOLDER:
       return <ConfirmDeleteFolderModal />;
+
+    case MODAL_TYPE.CONFIRM_DELETE_STUDY_SET:
+      return <ConfirmDeleteStudySetModal />;
 
     default:
       return null;
