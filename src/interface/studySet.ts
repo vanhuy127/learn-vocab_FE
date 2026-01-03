@@ -2,6 +2,7 @@ import { AccessLevel } from '@/types';
 
 import { IFolder } from './folder';
 import { ILanguage } from './language';
+import { IUserProcess } from './userProcess';
 
 export interface IStudySet {
   id: string;
@@ -25,6 +26,8 @@ export interface VocabTerm {
   word: string;
   meaning: string;
   note?: string;
+  position: number;
+  progress: IUserProcess[] | [];
 }
 
 export interface IStudySetExtended extends IStudySet {

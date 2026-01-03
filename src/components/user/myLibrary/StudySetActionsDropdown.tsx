@@ -1,4 +1,4 @@
-import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
+import { Eye, MoreVertical, Pencil, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -34,6 +34,16 @@ const StudySetActionsDropdown = ({ id }: Props) => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(ROUTE_PATH.USER.STUDY_SET.DETAILS.LINK(id));
+          }}
+        >
+          <Eye className="mr-2 h-4 w-4" />
+          Xem
+        </DropdownMenuItem>
+
         <DropdownMenuItem
           onClick={(e) => {
             e.stopPropagation();

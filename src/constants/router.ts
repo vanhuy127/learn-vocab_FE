@@ -14,6 +14,10 @@ export const ROUTE_PATH = {
         PATH: '/study-set/:id/edit',
         LINK: (id: string) => `/study-set/${id}/edit`,
       },
+      DETAILS: {
+        PATH: '/study-set/:id',
+        LINK: (id: string) => `/study-set/${id}`,
+      },
     },
   },
   ADMIN: {
