@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
@@ -9,13 +9,15 @@ import SetInfoCard from '@/components/user/createStudySet/SetInfoCard';
 import TermsHeader from '@/components/user/createStudySet/TermsHeader';
 import TermsList from '@/components/user/createStudySet/TermsList';
 
-import { ACCESS_LEVEL } from '@/constants';
+import { ACCESS_LEVEL, ROUTE_PATH } from '@/constants';
 import { CreateStudySetFormValues, createStudySetSchema } from '@/schema/studySet.schema';
 import { useStudySetService } from '@/service/studySet.service';
+import { useAuthStore } from '@/store';
 
-const CreateSetPage = () => {
+const EditSetPage = () => {
   const { id } = useParams();
   const { editStudySet, getStudySetById } = useStudySetService();
+  const { user } = useAuthStore();
 
   const { data: studySet } = useQuery({
     queryKey: ['user-study-set', id],
@@ -74,6 +76,9 @@ const CreateSetPage = () => {
     control: form.control,
     name: 'items',
   });
+  if (studySet && user && studySet.userId !== user.id) {
+    return <Navigate to={ROUTE_PATH.FORBIDDEN} replace />;
+  }
 
   return (
     <Form {...form}>
@@ -111,4 +116,4 @@ const CreateSetPage = () => {
   );
 };
 
-export default CreateSetPage;
+export default EditSetPage;

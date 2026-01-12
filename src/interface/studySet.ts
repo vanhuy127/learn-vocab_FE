@@ -6,6 +6,7 @@ import { IUserProcess } from './userProcess';
 
 export interface IStudySet {
   id: string;
+  userId: string;
   name: string;
   description?: string;
   language: ILanguage;

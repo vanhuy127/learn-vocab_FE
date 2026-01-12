@@ -27,8 +27,12 @@ export const useStudySetService = () => {
     }
   };
 
-  const getStudySetById = async (id: string) => {
-    const res: IResponse<IStudySetExtended> = await axiosClient.get(END_POINT.USER.STUDY_SET.GET_BY_ID(id));
+  const getStudySetById = async (id: string, trackingProgress: boolean = false) => {
+    const res: IResponse<IStudySetExtended> = await axiosClient.get(END_POINT.USER.STUDY_SET.GET_BY_ID(id), {
+      params: {
+        trackingProgress,
+      },
+    });
     if (!res.success) {
       toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
 
@@ -64,11 +68,23 @@ export const useStudySetService = () => {
     }
   };
 
+  const submitStudyItem = async (id: string, isCorrect: boolean) => {
+    const res: IResponse<null> = await axiosClient.post(END_POINT.USER.STUDY_ITEM.SUBMIT(id), {
+      isCorrect,
+    });
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    }
+  };
+
   return {
     getStudySetCurrent,
     createStudySet,
     getStudySetById,
     editStudySet,
     deleteStudySet,
+    submitStudyItem,
   };
 };

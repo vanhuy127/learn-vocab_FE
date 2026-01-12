@@ -9,6 +9,8 @@ import Unauthorized from '@/pages/Unauthorized';
 
 const Home = lazy(() => import('@/pages/user/Home'));
 const Search = lazy(() => import('@/pages/user/Search'));
+const LearnVocab = lazy(() => import('@/pages/user/LearnVocab'));
+const LearnFlashCard = lazy(() => import('@/pages/user/LearnFlashCard'));
 
 const GlobalRoutes: RouteObject[] = [
   {
@@ -16,6 +18,8 @@ const GlobalRoutes: RouteObject[] = [
     children: [
       { path: ROUTE_PATH.USER.HOME, element: <Home /> },
       { path: ROUTE_PATH.USER.SEARCH, element: <Search /> },
+      { path: ROUTE_PATH.USER.STUDY_SET.DETAILS.PATH, element: <LearnVocab /> },
+      { path: ROUTE_PATH.USER.STUDY_SET.LEARN_FLASHCARD.PATH, element: <LearnFlashCard /> },
     ],
   },
   {

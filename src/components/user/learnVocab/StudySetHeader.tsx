@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 import { ACCESS_LEVEL_SHOWS, DATE_PATTERN, ROUTE_PATH } from '@/constants';
 import { IStudySetExtended } from '@/interface';
+import { useAuthStore } from '@/store';
 import { formatDate } from '@/utils';
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 const StudySetHeader = ({ studySet }: Props) => {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   return (
     <Card>
@@ -38,11 +40,12 @@ const StudySetHeader = ({ studySet }: Props) => {
             </span>
           </div>
         </div>
-
-        <Button onClick={() => navigate(ROUTE_PATH.USER.STUDY_SET.EDIT.LINK(studySet.id))}>
-          <Pencil className="mr-2 h-4 w-4" />
-          Chỉnh sửa
-        </Button>
+        {user?.id === studySet.userId && (
+          <Button onClick={() => navigate(ROUTE_PATH.USER.STUDY_SET.EDIT.LINK(studySet.id))}>
+            <Pencil className="mr-2 h-4 w-4" />
+            Chỉnh sửa
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

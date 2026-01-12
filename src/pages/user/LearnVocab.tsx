@@ -17,7 +17,7 @@ const LearnVocab = () => {
     enabled: !!id,
   });
 
-  if (isLoading || !studySet) {
+  if (isLoading || !studySet || !id) {
     return <div>Loading...</div>;
   }
 
@@ -25,7 +25,7 @@ const LearnVocab = () => {
     <div className="container mx-auto max-w-6xl space-y-6 px-6 py-8">
       <StudySetHeader studySet={studySet} />
 
-      <LearningModes />
+      <LearningModes id={id} />
 
       <ListVocab items={studySet?.items || []} />
     </div>

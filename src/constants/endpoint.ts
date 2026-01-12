@@ -19,6 +19,9 @@ export const END_POINT = {
       EDIT: (id: string) => `/study-set/${id}`,
       DELETE: (id: string) => `/study-set/${id}`,
     },
+    STUDY_ITEM: {
+      SUBMIT: (id: string) => `/study-item/${id}/answer`,
+    },
     FOLDER: {
       CURRENT_LIST: '/folder/current-user',
       CREATE: '/folder',

@@ -18,6 +18,10 @@ export const ROUTE_PATH = {
         PATH: '/study-set/:id',
         LINK: (id: string) => `/study-set/${id}`,
       },
+      LEARN_FLASHCARD: {
+        PATH: '/study-set/:id/flashcard',
+        LINK: (id: string) => `/study-set/${id}/flashcard`,
+      },
     },
   },
   ADMIN: {
@@ -25,4 +29,5 @@ export const ROUTE_PATH = {
   },
   NOT_FOUND: '*',
   UNAUTHORIZE: '/unauthorized',
+  FORBIDDEN: '/forbidden',
 };

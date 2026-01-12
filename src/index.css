@@ -141,14 +141,6 @@
   @apply bg-gray-400 dark:bg-gray-500;
 }
 
-/* Smooth transitions for theme switching */
-* {
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    color 0.3s ease;
-}
-
 /* -------------------------------
    Sidebar Layout Transitions
 ---------------------------------*/
