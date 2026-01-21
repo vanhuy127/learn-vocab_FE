@@ -30,23 +30,7 @@ export interface VocabTerm {
   position: number;
   progress: IUserProcess[] | [];
 }
-export interface QuizTermOptions {
-  id: string;
-  text: string;
-}
-
-export interface QuizTerm {
-  itemId: string;
-  questionType: 'CHOICE';
-  question: string;
-  options: QuizTermOptions[];
-  correctAnswer: string;
-}
 
 export interface IStudySetExtended extends IStudySet {
   items: VocabTerm[];
-}
-
-export interface IQuiz extends IStudySet {
-  items: QuizTerm[];
 }

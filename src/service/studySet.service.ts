@@ -2,7 +2,7 @@ import { toast } from 'sonner';
 
 import { axiosClient } from '@/config/axios';
 import { END_POINT, MESSAGE_CODE } from '@/constants';
-import { IQuiz, IResponse, IStudySetExtended, IStudySetSearch } from '@/interface';
+import { IResponse, IStudySetExtended, IStudySetSearch } from '@/interface';
 import { CreateStudySetFormValues } from '@/schema/studySet.schema';
 
 export const useStudySetService = () => {
@@ -32,19 +32,6 @@ export const useStudySetService = () => {
       params: {
         trackingProgress,
       },
-    });
-    if (!res.success) {
-      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
-
-      return;
-    } else {
-      return res.data;
-    }
-  };
-
-  const getStudySetByIdForQuiz = async (id: string) => {
-    const res: IResponse<IQuiz> = await axiosClient.get(END_POINT.USER.STUDY_SET.GET_BY_ID_FOR_QUIZ(id), {
-      params: {},
     });
     if (!res.success) {
       toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
@@ -99,6 +86,5 @@ export const useStudySetService = () => {
     editStudySet,
     deleteStudySet,
     submitStudyItem,
-    getStudySetByIdForQuiz,
   };
 };

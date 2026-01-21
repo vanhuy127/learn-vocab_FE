@@ -22,10 +22,6 @@ export const ROUTE_PATH = {
         PATH: '/study-set/:id/flashcard',
         LINK: (id: string) => `/study-set/${id}/flashcard`,
       },
-      LEARN_QUIZ: {
-        PATH: '/study-set/:id/quiz',
-        LINK: (id: string) => `/study-set/${id}/quiz`,
-      },
     },
   },
   ADMIN: {
