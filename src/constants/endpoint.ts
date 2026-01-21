@@ -16,6 +16,7 @@ export const END_POINT = {
       CURRENT_LIST: '/study-set/current-user',
       CREATE: '/study-set',
       GET_BY_ID: (id: string) => `/study-set/${id}`,
+      GET_BY_ID_FOR_QUIZ: (id: string) => `/study-set/${id}/quiz`,
       EDIT: (id: string) => `/study-set/${id}`,
       DELETE: (id: string) => `/study-set/${id}`,
     },

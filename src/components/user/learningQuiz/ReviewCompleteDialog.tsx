@@ -6,53 +6,43 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { ROUTE_PATH } from '@/constants';
 import { useModalStore } from '@/store';
 
-const ReviewCompleteDialog = () => {
+const ReviewQuizCompleteDialog = () => {
   const { isOpen, data, closeModal } = useModalStore();
   const navigate = useNavigate();
-  const mastered = data?.mastered || 0;
-  const notLearning = data?.notLearning || 0;
+  const score = data?.score || 0;
+  const maxScore = data?.maxScore || 0;
 
-  const accuracy = Math.round((mastered / (mastered + notLearning)) * 100);
+  const accuracy = Math.round((score / maxScore) * 100);
 
   return (
-    <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent>
+    <Dialog open={isOpen}>
+      <DialogContent className="[&>button]:hidden">
         <DialogHeader>
           <DialogTitle className="text-center text-xl">🎉 Chúc mừng!</DialogTitle>
           <p className="text-muted-foreground text-center">Bạn đã hoàn thành phiên ôn tập</p>
         </DialogHeader>
-        {(mastered === 0 && notLearning === 0) || (
-          <div className="space-y-3 text-sm">
-            <div className="flex justify-between">
-              <span>Đã thuộc</span>
-              <span>{mastered}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Chưa thuộc</span>
-              <span>{notLearning}</span>
-            </div>
-
-            <hr />
-
-            <div className="flex justify-between">
-              <span>🎯 Độ chính xác</span>
-              <span>{accuracy}%</span>
-            </div>
-          </div>
-        )}
+        <p className="text-muted-foreground mb-6">
+          Bạn đã trả lời đúng{' '}
+          <span className="text-rose-600">
+            {score}/{maxScore}
+          </span>{' '}
+          câu với tỉ lệ <span className="text-rose-600">{accuracy}%</span> tổng số câu hỏi
+        </p>
 
         <DialogFooter className="flex gap-2">
           <Button
             variant="secondary"
-            onClick={() => {
-              data!.reviewAgain(0);
-              closeModal();
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.reload();
             }}
           >
             Ôn tập lại
           </Button>
           <Button
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              closeModal();
               navigate(ROUTE_PATH.USER.STUDY_SET.DETAILS.LINK(data!.id));
             }}
           >
@@ -64,4 +54,4 @@ const ReviewCompleteDialog = () => {
   );
 };
 
-export default ReviewCompleteDialog;
+export default ReviewQuizCompleteDialog;

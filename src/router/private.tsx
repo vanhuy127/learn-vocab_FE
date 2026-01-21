@@ -12,6 +12,8 @@ import { useAuthStore } from '@/store';
 const MyLibrary = lazy(() => import('@/pages/user/MyLibrary'));
 const CreateStudySet = lazy(() => import('@/pages/user/CreateStudySet'));
 const EditStudySet = lazy(() => import('@/pages/user/EditStudySet'));
+const LearnFlashCard = lazy(() => import('@/pages/user/LearnFlashcard'));
+const LearnQuiz = lazy(() => import('@/pages/user/LearnQuiz'));
 
 //user page
 const Account = lazy(() => import('@/pages/user/Account'));
@@ -41,6 +43,8 @@ const PrivateRoutes: RouteObject[] = [
       { path: ROUTE_PATH.USER.LIBRARY, element: <MyLibrary /> },
       { path: ROUTE_PATH.USER.STUDY_SET.CREATE, element: <CreateStudySet /> },
       { path: ROUTE_PATH.USER.STUDY_SET.EDIT.PATH, element: <EditStudySet /> },
+      { path: ROUTE_PATH.USER.STUDY_SET.LEARN_FLASHCARD.PATH, element: <LearnFlashCard /> },
+      { path: ROUTE_PATH.USER.STUDY_SET.LEARN_QUIZ.PATH, element: <LearnQuiz /> },
     ],
   },
   {
