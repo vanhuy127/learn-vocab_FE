@@ -18,7 +18,9 @@ const LearnVocab = () => {
   });
 
   if (isLoading || !studySet || !id) {
-    return <div>Loading...</div>;
+    return <div className="bg-background flex min-h-screen items-center justify-center">
+      <div className="text-muted-foreground">Đang tải...</div>
+    </div>;
   }
 
   return (

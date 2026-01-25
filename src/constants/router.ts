@@ -26,6 +26,10 @@ export const ROUTE_PATH = {
         PATH: '/study-set/:id/quiz',
         LINK: (id: string) => `/study-set/${id}/quiz`,
       },
+      LEARN_REVIEW: {
+        PATH: '/study-set/:id/review',
+        LINK: (id: string) => `/study-set/${id}/review`,
+      },
     },
   },
   ADMIN: {

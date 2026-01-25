@@ -10,7 +10,7 @@ const LearningModes = ({ id }: { id: string }) => {
   const MODES = [
     { icon: BookOpen, title: 'Thẻ ghi nhớ', link: ROUTE_PATH.USER.STUDY_SET.LEARN_FLASHCARD.LINK(id) },
     { icon: Brain, title: 'Quiz', link: ROUTE_PATH.USER.STUDY_SET.LEARN_QUIZ.LINK(id) },
-    { icon: FileQuestion, title: 'Kiểm tra', link: '' },
+    { icon: FileQuestion, title: 'Kiểm tra', link: ROUTE_PATH.USER.STUDY_SET.LEARN_REVIEW.LINK(id) },
   ];
 
   return (

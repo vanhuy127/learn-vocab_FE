@@ -1,17 +1,22 @@
 import React, { useMemo, useRef, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 
 import { ROUTE_PATH } from '@/constants';
 import { useStudySetService } from '@/service/studySet.service';
+import { Button } from '@/components/ui/button';
+import ResultSummary from '@/components/user/learnReview/ResultSummary';
+import QuestionDashboard from '@/components/user/learnReview/QuestionDashboard';
+import QuestionCard from '@/components/user/learnReview/QuestionCard';
+import { ManyAnswer } from '@/types';
 
 type AnswerMap = Record<
   string, // itemId
   {
-    selected: string | null;
-    isCorrect: boolean | null;
+    selected: string;
+    isCorrect: boolean;
   }
 >;
 
@@ -21,7 +26,7 @@ const LearnReview = () => {
   const questionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const { id } = useParams();
-  const { getStudySetByIdForQuiz, submitStudyItem } = useStudySetService();
+  const { getStudySetByIdForQuiz, submitManyStudyItem } = useStudySetService();
 
   const {
     data: studySet,
@@ -31,6 +36,11 @@ const LearnReview = () => {
     queryKey: ['review-quiz', id],
     queryFn: () => getStudySetByIdForQuiz(id!),
     enabled: !!id,
+  });
+
+  const submitMutation = useMutation({
+    mutationFn: ({ id, answers }: { id: string; answers: ManyAnswer }) => submitManyStudyItem(id, answers),
+    onSuccess: () => { },
   });
 
   const questions = studySet?.items ?? [];
@@ -52,10 +62,12 @@ const LearnReview = () => {
     // auto scroll xuống câu tiếp theo
     const nextQuestion = questions[questionIndex + 1];
     if (nextQuestion) {
-      questionRefs.current[nextQuestion.itemId]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+      setTimeout(() => {
+        questionRefs.current[nextQuestion.itemId]?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }, 300);
     }
   };
 
@@ -76,6 +88,48 @@ const LearnReview = () => {
       unansweredCount: totalQuestions - correct - wrong,
     };
   }, [answers, questions, totalQuestions]);
+
+  const { scorePercent, encouragement } = useMemo(() => {
+    if (totalQuestions === 0) {
+      return {
+        scorePercent: 0,
+        encouragement: '',
+      };
+    }
+
+    const percent = Math.round((correctCount / totalQuestions) * 100);
+
+    let message = '💪 Cố gắng thêm';
+    if (percent >= 80) message = '🎯 Xuất sắc';
+    else if (percent >= 50) message = '👍 Khá tốt';
+
+    return {
+      scorePercent: percent,
+      encouragement: message,
+    };
+  }, [correctCount, totalQuestions]);
+
+  const handleReset = () => {
+    setAnswers({});
+    setIsSubmitted(false);
+
+    // scroll lên đầu bài
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSubmit = () => {
+    if (!id) return;
+    const convertData = Object.entries(answers).map(([key, value]) => ({
+      itemId: key,
+      isCorrect: value.isCorrect,
+    }))
+    submitMutation.mutate({
+      id,
+      answers: convertData,
+    });
+    setIsSubmitted(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   if (isLoading) {
     return (
@@ -114,104 +168,56 @@ const LearnReview = () => {
         <p className="text-muted-foreground">Ôn tập • {totalQuestions} câu hỏi</p>
       </div>
 
-      {/* Question List */}
-      <div className="space-y-10 pb-32">
-        {questions.map((q, index) => {
-          const result = answers[q.itemId];
-
-          return (
-            <div
-              key={q.itemId}
-              ref={(el) => {
-                questionRefs.current[q.itemId] = el;
-              }}
-              className="border-border bg-card rounded-lg border p-6"
-            >
-              <h3 className="mb-4 text-lg font-semibold">
-                Câu {index + 1}: {q.question}
-              </h3>
-
-              <div className="space-y-2">
-                {q.options.map(({ id, text }) => {
-                  const isSelected = result?.selected === text;
-                  const isCorrect = text === q.correctAnswer;
-
-                  return (
-                    <button
-                      key={id}
-                      disabled={isSubmitted}
-                      onClick={() => handleSelectAnswer(index, q, text)}
-                      className={`w-full rounded-lg border-2 p-3 text-left transition-all ${
-                        !isSubmitted && isSelected ? 'border-primary bg-primary/10' : ''
-                      } ${isSubmitted && isCorrect ? 'border-green-500 bg-green-100 dark:bg-green-900/20' : ''} ${
-                        isSubmitted && isSelected && !isCorrect ? 'border-red-500 bg-red-100 dark:bg-red-900/20' : ''
-                      } ${
-                        isSubmitted && !isSelected && !isCorrect ? 'border-border bg-muted text-muted-foreground' : ''
-                      } `}
-                    >
-                      {text}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Submit Bar */}
-      {!isSubmitted && (
-        <div className="border-border bg-background fixed right-0 bottom-0 left-0 border-t p-4">
-          <div className="mx-auto max-w-6xl text-right">
-            <button
-              onClick={() => setIsSubmitted(true)}
-              className="bg-primary text-primary-foreground rounded-lg px-6 py-3 font-semibold"
-            >
-              Nộp bài
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Result Dashboard */}
       {isSubmitted && (
-        <div className="border-border bg-card fixed top-24 right-6 w-72 rounded-lg border p-4 shadow-lg">
-          <h3 className="mb-2 text-lg font-bold">Kết quả</h3>
-
-          <div className="mb-4 space-y-1 text-sm">
-            <p className="text-green-600">✔ Đúng: {correctCount}</p>
-            <p className="text-red-600">✘ Sai: {wrongCount}</p>
-            <p className="text-muted-foreground">• Chưa làm: {unansweredCount}</p>
-          </div>
-
-          <div className="grid grid-cols-5 gap-2">
-            {questions.map((q, index) => {
-              const r = answers[q.itemId];
-
-              return (
-                <button
-                  key={q.itemId}
-                  onClick={() =>
-                    questionRefs.current[q.itemId]?.scrollIntoView({
-                      behavior: 'smooth',
-                      block: 'center',
-                    })
-                  }
-                  className={`h-9 w-9 rounded-full text-sm font-semibold ${
-                    r?.isCorrect === true
-                      ? 'bg-green-500 text-white'
-                      : r?.isCorrect === false
-                        ? 'bg-red-500 text-white'
-                        : 'bg-muted text-muted-foreground'
-                  } `}
-                >
-                  {index + 1}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <ResultSummary
+          correctCount={correctCount}
+          wrongCount={wrongCount}
+          unansweredCount={unansweredCount}
+          totalQuestions={totalQuestions}
+          scorePercent={scorePercent}
+          encouragement={encouragement}
+          onReset={handleReset}
+        />
       )}
+
+      <div className='flex gap-6 items-start'>
+        {/*dash board  */}
+        <QuestionDashboard
+          questions={questions}
+          answers={answers}
+          isSubmitted={isSubmitted}
+          onJump={(id) =>
+            questionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        />
+
+        {/* list ques */}
+        <div className="flex-1 space-y-10">
+          {questions.map((q, index) => (
+            <QuestionCard
+              key={q.itemId}
+              index={index}
+              question={q}
+              result={answers[q.itemId]}
+              isSubmitted={isSubmitted}
+              onSelect={(answer) => handleSelectAnswer(index, q, answer)}
+              refCallback={(el) => (questionRefs.current[q.itemId] = el)}
+            />
+          ))}
+          {/* Submit Bar */}
+          {!isSubmitted && (
+            <div className="w-full flex justify-center">
+              <Button
+                size={'lg'}
+                onClick={handleSubmit}
+                className="cursor-pointer hover:scale-105 px-20"
+              >
+                Nộp bài
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

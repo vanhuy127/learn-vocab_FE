@@ -4,6 +4,7 @@ import { axiosClient } from '@/config/axios';
 import { END_POINT, MESSAGE_CODE } from '@/constants';
 import { IQuiz, IResponse, IStudySetExtended, IStudySetSearch } from '@/interface';
 import { CreateStudySetFormValues } from '@/schema/studySet.schema';
+import { ManyAnswer } from '@/types';
 
 export const useStudySetService = () => {
   const getStudySetCurrent = async ({ search }: { search: string }) => {
@@ -92,6 +93,17 @@ export const useStudySetService = () => {
     }
   };
 
+  const submitManyStudyItem = async (id: string, answers: ManyAnswer) => {
+    const res: IResponse<null> = await axiosClient.post(END_POINT.USER.STUDY_ITEM.SUBMIT_MANY_ANSWER(id), {
+      answers,
+    });
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    }
+  };
+
   return {
     getStudySetCurrent,
     createStudySet,
@@ -99,6 +111,7 @@ export const useStudySetService = () => {
     editStudySet,
     deleteStudySet,
     submitStudyItem,
+    submitManyStudyItem,
     getStudySetByIdForQuiz,
   };
 };

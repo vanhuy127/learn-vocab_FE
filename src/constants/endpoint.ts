@@ -22,6 +22,7 @@ export const END_POINT = {
     },
     STUDY_ITEM: {
       SUBMIT: (id: string) => `/study-item/${id}/answer`,
+      SUBMIT_MANY_ANSWER: (id: string) => `/study-item/${id}/many-answer`,
     },
     FOLDER: {
       CURRENT_LIST: '/folder/current-user',
