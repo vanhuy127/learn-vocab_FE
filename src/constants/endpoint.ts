@@ -33,6 +33,7 @@ export const END_POINT = {
     },
     TEST: {
       CURRENT_LIST: '/test/current-user',
+      CREATE: '/test',
     },
   },
   ADMIN: {},

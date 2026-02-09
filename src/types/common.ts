@@ -1,4 +1,4 @@
-import type { ACCESS_LEVEL, ROLE } from '@/constants';
+import type { ACCESS_LEVEL, QUESTION_TYPE, ROLE } from '@/constants';
 
 export type Role = (typeof ROLE)[keyof typeof ROLE];
 
@@ -8,4 +8,4 @@ export type MyLibraryTabType = 'study-set' | 'folder' | 'test';
 
 export type UserProcessType = 'NEW' | 'LEARNING' | 'MASTERED';
 
-export type QuestionType = 'CHOICE' | 'FILL_IN' | 'T_F' | 'MULTI_CHOICE';
+export type QuestionType = (typeof QUESTION_TYPE)[keyof typeof QUESTION_TYPE];

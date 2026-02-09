@@ -31,6 +31,9 @@ export const ROUTE_PATH = {
         LINK: (id: string) => `/study-set/${id}/review`,
       },
     },
+    TEST: {
+      CREATE: '/test/create',
+    },
   },
   ADMIN: {
     DASHBOARD: '/admin/dashboard',

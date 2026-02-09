@@ -15,6 +15,7 @@ const EditStudySet = lazy(() => import('@/pages/user/EditStudySet'));
 const LearnFlashCard = lazy(() => import('@/pages/user/LearnFlashcard'));
 const LearnQuiz = lazy(() => import('@/pages/user/LearnQuiz'));
 const LearnReview = lazy(() => import('@/pages/user/LearnReview'));
+const CreateTest = lazy(() => import('@/pages/user/CreateTest'));
 
 //user page
 const Account = lazy(() => import('@/pages/user/Account'));
@@ -47,6 +48,7 @@ const PrivateRoutes: RouteObject[] = [
       { path: ROUTE_PATH.USER.STUDY_SET.LEARN_FLASHCARD.PATH, element: <LearnFlashCard /> },
       { path: ROUTE_PATH.USER.STUDY_SET.LEARN_QUIZ.PATH, element: <LearnQuiz /> },
       { path: ROUTE_PATH.USER.STUDY_SET.LEARN_REVIEW.PATH, element: <LearnReview /> },
+      { path: ROUTE_PATH.USER.TEST.CREATE, element: <CreateTest /> },
     ],
   },
   {
