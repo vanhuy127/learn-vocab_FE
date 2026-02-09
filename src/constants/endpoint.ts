@@ -34,6 +34,10 @@ export const END_POINT = {
     TEST: {
       CURRENT_LIST: '/test/current-user',
       CREATE: '/test',
+      GET_BY_ID: (id: string) => `/test/${id}`,
+      GET_USER_BY_ID: (id: string) => `/user/test/${id}`,
+      EDIT: (id: string) => `/test/${id}`,
+      DELETE: (id: string) => `/test/${id}`,
     },
   },
   ADMIN: {},

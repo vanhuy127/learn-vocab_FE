@@ -66,18 +66,19 @@ const ChoiceOptions = ({ index, questionType }: Props) => {
     return (
         <div className="space-y-2">
             {fields.map((field, i) => {
+                const fieldId = field.id
                 const checked = form.watch(
                     `questions.${index}.options.${i}.isCorrect`
                 )
 
                 return (
-                    <div key={field.id} className="flex gap-2 items-center">
+                    <div key={fieldId} className="flex gap-2 items-center">
                         <Checkbox
                             checked={checked}
                             onCheckedChange={(v) => handleCheck(i, !!v)}
                         />
 
-                        <Label>
+                        <Label htmlFor={`ans-${fieldId}`}>
                             {getOptionLabel(i)}
                         </Label>
 
@@ -89,6 +90,7 @@ const ChoiceOptions = ({ index, questionType }: Props) => {
                                 renderInput={(field) => (
                                     <Input
                                         {...field}
+                                        id={`ans-${fieldId}`}
                                         value={field.value as string}
                                         placeholder={`Đáp án ${getOptionLabel(i)}`}
                                     />

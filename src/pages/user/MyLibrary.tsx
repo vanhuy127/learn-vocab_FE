@@ -11,25 +11,45 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { MyLibraryTabType } from '@/types';
 
+const DEFAULT_TAB: MyLibraryTabType = 'study-set';
+
 const MyLibrary = () => {
-  const { query, setQuery } = useQueryParams();
+  const { query, setQuery } = useQueryParams<{ search?: string; tab?: MyLibraryTabType }>();
   const { search = '' } = query;
 
-  const [activeTab, setActiveTab] = useState<MyLibraryTabType>('study-set');
+  const [activeTab, setActiveTab] = useState<MyLibraryTabType>(DEFAULT_TAB);
   const [searchInput, setSearchInput] = useState(search);
   const debouncedSearch = useDebounce(searchInput);
-
-  useEffect(() => {
-    if (debouncedSearch !== search) {
-      setQuery({ search: debouncedSearch });
-    }
-  }, [debouncedSearch]);
 
   const tabs = [
     { value: 'study-set', label: 'Học phần', icon: BookOpen },
     { value: 'folder', label: 'Thư mục', icon: FolderOpen },
     { value: 'test', label: 'Bài kiểm tra', icon: FileQuestion },
-  ];
+  ] as const;
+
+  const normalizeTab = (value?: string) => {
+    const valid = tabs.some((tab) => tab.value === value);
+
+    return (valid ? value : DEFAULT_TAB) as MyLibraryTabType;
+  };
+
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      setQuery({ search: debouncedSearch });
+    }
+  }, [debouncedSearch, search, setQuery]);
+
+  useEffect(() => {
+    const nextTab = normalizeTab(query.tab);
+    if (!query.tab) {
+      setQuery({ tab: DEFAULT_TAB });
+
+      return;
+    }
+    if (nextTab !== activeTab) {
+      setActiveTab(nextTab);
+    }
+  }, [query.tab, activeTab, setQuery]);
 
   return (
     <div className="min-h-screen">
@@ -51,10 +71,11 @@ const MyLibrary = () => {
               return (
                 <button
                   key={tab.value}
-                  onClick={() => setActiveTab(tab.value as MyLibraryTabType)}
-                  className={`relative flex items-center gap-3 px-6 py-4 font-semibold transition-all ${
-                    activeTab === tab.value ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                  }`}
+                  onClick={() => {
+                    setQuery({ tab: tab.value });
+                  }}
+                  className={`relative flex items-center gap-3 px-6 py-4 font-semibold transition-all ${activeTab === tab.value ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                    }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span>{tab.label}</span>

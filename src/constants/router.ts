@@ -33,6 +33,10 @@ export const ROUTE_PATH = {
     },
     TEST: {
       CREATE: '/test/create',
+      EDIT: {
+        PATH: '/test/:id/edit',
+        LINK: (id: string) => `/test/${id}/edit`,
+      },
     },
   },
   ADMIN: {

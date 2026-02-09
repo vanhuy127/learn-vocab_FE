@@ -7,6 +7,7 @@ import ReviewQuizCompleteDialog from './user/learningQuiz/ReviewCompleteDialog';
 import ConfirmDeleteFolderModal from './user/myLibrary/ConfirmDeleteFolderModal';
 import ConfirmDeleteStudySetModal from './user/myLibrary/ConfirmDeleteStudySetModal';
 import EditFolderModal from './user/myLibrary/EditFolderModal';
+import ConfirmDeleteTestModal from './user/myLibrary/ConfirmDeleteTestModal';
 
 const ModalRoot = () => {
   const { isOpen, type } = useModalStore();
@@ -25,6 +26,9 @@ const ModalRoot = () => {
 
     case MODAL_TYPE.CONFIRM_DELETE_STUDY_SET:
       return <ConfirmDeleteStudySetModal />;
+
+    case MODAL_TYPE.CONFIRM_DELETE_TEST:
+      return <ConfirmDeleteTestModal />;
 
     case MODAL_TYPE.REVIEW_COMPLETE:
       return <ReviewCompleteDialog />;

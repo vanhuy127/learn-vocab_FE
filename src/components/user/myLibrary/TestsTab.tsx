@@ -11,6 +11,7 @@ import { useTestService } from '@/service/test.service';
 import { formatDate } from '@/utils';
 
 import SearchEmpty from '../SearchEmpty';
+import TestActionsDropdown from './TestActionsDropdown';
 
 interface IProps {
   search: string;
@@ -49,9 +50,12 @@ const TestsTab = (props: IProps) => {
       {tests.map((test, index) => (
         <div
           key={test.id}
-          className="bg-card border-border hover:border-secondary group cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className="relative bg-card border-border hover:border-secondary group cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           style={{ animationDelay: `${index * 50}ms` }}
         >
+          <div className="absolute top-4 right-4">
+            <TestActionsDropdown testId={test.id} />
+          </div>
           <div className="mb-4 flex items-start gap-4">
             <div className="from-secondary/20 to-secondary/5 rounded-xl bg-linear-to-br p-3 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
               <FileQuestion className="text-secondary-foreground h-6 w-6" />
@@ -67,7 +71,7 @@ const TestsTab = (props: IProps) => {
           <div className="mb-4 flex flex-wrap items-center gap-4">
             <span className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
               <Clock className="h-4 w-4" />
-              <span className="text-foreground font-bold">{test.duration || 'Không giới hạn'}</span>
+              <span className="text-foreground font-bold">{test.duration ? test.duration + ' phút' : 'Không giới hạn'}</span>
             </span>
             <span className="bg-secondary/10 text-secondary-foreground border-secondary/20 rounded-lg border px-3 py-1.5 text-xs font-semibold">
               {test._count.questions} câu hỏi
