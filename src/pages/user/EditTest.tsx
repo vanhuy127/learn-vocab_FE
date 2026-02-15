@@ -1,22 +1,30 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { TriangleAlert } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import TestInfoCard from '@/components/user/createTest/TestInfoCard';
 import QuestionList from '@/components/user/createTest/QuestionList';
+import TestInfoCard from '@/components/user/createTest/TestInfoCard';
+
 import { ACCESS_LEVEL } from '@/constants';
+import { ITestOption, ITestResponse } from '@/interface';
 import { CreateTestFormValues, createTestSchema } from '@/schema/test.schema';
 import { useTestService } from '@/service/test.service';
-import { useAuthStore } from '@/store';
-import { ITestOption, ITestResponse } from '@/interface';
 import { CreateTestPayload } from '@/types';
+
 import Forbidden from '../Forbidden';
 import NotFound from '../NotFound';
 
 const getOptionLabel = (index: number) => String.fromCharCode(65 + index);
+type QuestionFormValue = CreateTestFormValues['questions'][number];
+type QuestionPayload = CreateTestPayload['questions'][number];
+type EditTestPayload = Omit<CreateTestPayload, 'questions'> & {
+  questions: Array<QuestionPayload & { id?: string }>;
+};
 
 const resolveTrueFalseAnswer = (options?: ITestOption[]) => {
   if (!options || options.length === 0) return 'true';
@@ -49,7 +57,6 @@ const mapTestToFormValues = (test: ITestResponse): CreateTestFormValues => {
       };
 
       if (questionType === 'FILL_IN') {
-
         return {
           ...base,
           answer: q.fillAnswers?.[0].answerText ?? '',
@@ -57,15 +64,21 @@ const mapTestToFormValues = (test: ITestResponse): CreateTestFormValues => {
       }
 
       if (questionType === 'T_F') {
+        const answer = resolveTrueFalseAnswer(q.options);
+
         return {
           ...base,
-          answer: resolveTrueFalseAnswer(q.options),
+          answer,
+          options: [
+            { id: 'true', text: 'Đúng', isCorrect: answer === 'true' },
+            { id: 'false', text: 'Sai', isCorrect: answer === 'false' },
+          ],
         };
       }
 
       return {
         ...base,
-        options: (q.options ?? []).map((opt, optIndex) => ({
+        options: (q.options ?? []).map((opt) => ({
           id: opt.id ?? opt.label ?? crypto.randomUUID(),
           text: opt.text ?? '',
           isCorrect: !!opt.isCorrect,
@@ -91,46 +104,83 @@ const removeUndefinedDeep = (value: unknown): unknown => {
   return value === undefined ? undefined : value;
 };
 
-const mapCreateTestToPayload = (data: CreateTestFormValues): CreateTestPayload => {
+const mapQuestionToPayload = (question: QuestionFormValue, index: number): QuestionPayload => {
+  if (question.questionType === 'FILL_IN') {
+    const answer = question.answer?.trim();
+
+    return {
+      questionType: question.questionType,
+      questionText: question.questionText.trim(),
+      points: question.points,
+      position: index + 1,
+      fillAnswers: answer ? [answer] : [],
+    };
+  }
+
+  const options = (question.options ?? []).map((opt, optIndex) => ({
+    label: getOptionLabel(optIndex),
+    text: opt.text.trim(),
+    isCorrect: opt.isCorrect,
+    position: optIndex + 1,
+  }));
+
   return {
+    questionType: question.questionType,
+    questionText: question.questionText.trim(),
+    points: question.points,
+    position: index + 1,
+    options,
+  };
+};
+
+const mapEditTestToPayload = (data: CreateTestFormValues, originalTest?: ITestResponse): EditTestPayload => {
+  const basePayload = {
     title: data.title.trim(),
     description: data.description?.trim() || undefined,
     duration: data.duration || undefined,
     accessLevel: data.accessLevel,
-    questions: data.questions.map((q, qIndex) => {
-      if (q.questionType === 'FILL_IN') {
-        const answer = q.answer?.trim();
+  };
 
-        return {
-          questionType: q.questionType,
-          questionText: q.questionText.trim(),
-          points: q.points,
-          position: qIndex + 1,
-          fillAnswers: answer ? [answer] : [],
-        };
-      }
+  if (!originalTest) {
+    return {
+      ...basePayload,
+      questions: data.questions.map((q, qIndex) => mapQuestionToPayload(q, qIndex)),
+    };
+  }
 
-      const options = (q.options ?? []).map((opt, optIndex) => ({
-        label: getOptionLabel(optIndex),
-        text: opt.text.trim(),
-        isCorrect: opt.isCorrect,
-        position: optIndex + 1,
-      }));
+  const originalFormValues = mapTestToFormValues(originalTest);
+  const originalIds = new Set(originalFormValues.questions.map((q) => q.id));
+  const originalQuestionsById = new Map(
+    originalFormValues.questions.map((q, qIndex) => [q.id, mapQuestionToPayload(q, qIndex)]),
+  );
 
-      return {
-        questionType: q.questionType,
-        questionText: q.questionText.trim(),
-        points: q.points,
-        position: qIndex + 1,
-        options,
-      };
-    }),
+  const changedQuestions = data.questions
+    .map((q, qIndex) => {
+      const mapped = mapQuestionToPayload(q, qIndex);
+      const isExistingQuestion = originalIds.has(q.id);
+
+      return isExistingQuestion ? { ...mapped, id: q.id } : mapped;
+    })
+    .filter((question, index) => {
+      const formQuestion = data.questions[index];
+      const originalQuestion = originalQuestionsById.get(formQuestion.id);
+
+      if (!originalQuestion) return true;
+
+      const comparableQuestion = { ...question };
+      delete comparableQuestion.id;
+
+      return JSON.stringify(comparableQuestion) !== JSON.stringify(originalQuestion);
+    });
+
+  return {
+    ...basePayload,
+    questions: changedQuestions,
   };
 };
 
 const EditTestPage = () => {
   const { id } = useParams();
-  const { user } = useAuthStore();
   const { getUserTestById, editTest } = useTestService();
 
   const { data: test, error } = useQuery({
@@ -154,12 +204,12 @@ const EditTestPage = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: CreateTestPayload) => editTest(id!, data),
-    onSuccess: () => { },
+    mutationFn: (data: EditTestPayload) => editTest(id!, data),
+    onSuccess: () => {},
   });
 
   const onSubmit = (data: CreateTestFormValues) => {
-    const payload = removeUndefinedDeep(mapCreateTestToPayload(data)) as CreateTestPayload;
+    const payload = removeUndefinedDeep(mapEditTestToPayload(data, test ?? undefined)) as EditTestPayload;
     mutation.mutate(payload);
   };
 
@@ -179,9 +229,14 @@ const EditTestPage = () => {
             <h1 className="text-foreground mb-3 text-4xl font-bold md:text-5xl">Cập nhật bài kiểm tra</h1>
             <p className="text-muted-foreground text-lg">Chỉnh sửa nội dung để bài kiểm tra chính xác hơn</p>
           </div>
-
           <TestInfoCard />
-          <QuestionList />
+          {test?.isLocked && (
+            <Badge variant="destructive" className="text-sm">
+              <TriangleAlert data-icon="inline-start" />
+              Không thể chỉnh sửa cấu trúc câu hỏi vì đã có người dùng nộp bài
+            </Badge>
+          )}
+          <QuestionList isEdit={!test?.isLocked} />
 
           <div className="flex justify-end">
             <Button type="submit" className="cursor-pointer" disabled={mutation.isPending}>

@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { Calendar, Clock, FileQuestion } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import SkeletonList, { SearchItemSkeleton } from '@/components/Skeleton';
 
-import { DATE_PATTERN } from '@/constants';
+import { DATE_PATTERN, ROUTE_PATH } from '@/constants';
 import { useQueryParams } from '@/hooks/useQueryParams';
 import { useTestService } from '@/service/test.service';
 import { formatDate } from '@/utils';
@@ -20,6 +21,7 @@ interface IProps {
 const TestsTab = (props: IProps) => {
   const { query, setQuery } = useQueryParams();
   const { getTestCurrent } = useTestService();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (props.search !== query.search) {
@@ -50,8 +52,9 @@ const TestsTab = (props: IProps) => {
       {tests.map((test, index) => (
         <div
           key={test.id}
-          className="relative bg-card border-border hover:border-secondary group cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className="bg-card border-border hover:border-secondary group relative cursor-pointer rounded-2xl border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           style={{ animationDelay: `${index * 50}ms` }}
+          onClick={() => navigate(ROUTE_PATH.USER.TEST.OVERVIEW.LINK(test.id))}
         >
           <div className="absolute top-4 right-4">
             <TestActionsDropdown testId={test.id} />
@@ -71,7 +74,9 @@ const TestsTab = (props: IProps) => {
           <div className="mb-4 flex flex-wrap items-center gap-4">
             <span className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
               <Clock className="h-4 w-4" />
-              <span className="text-foreground font-bold">{test.duration ? test.duration + ' phút' : 'Không giới hạn'}</span>
+              <span className="text-foreground font-bold">
+                {test.duration ? test.duration + ' phút' : 'Không giới hạn'}
+              </span>
             </span>
             <span className="bg-secondary/10 text-secondary-foreground border-secondary/20 rounded-lg border px-3 py-1.5 text-xs font-semibold">
               {test._count.questions} câu hỏi

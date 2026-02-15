@@ -6,8 +6,8 @@ import ReviewCompleteDialog from './user/learningFlashCard/ReviewCompleteDialog'
 import ReviewQuizCompleteDialog from './user/learningQuiz/ReviewCompleteDialog';
 import ConfirmDeleteFolderModal from './user/myLibrary/ConfirmDeleteFolderModal';
 import ConfirmDeleteStudySetModal from './user/myLibrary/ConfirmDeleteStudySetModal';
-import EditFolderModal from './user/myLibrary/EditFolderModal';
 import ConfirmDeleteTestModal from './user/myLibrary/ConfirmDeleteTestModal';
+import EditFolderModal from './user/myLibrary/EditFolderModal';
 
 const ModalRoot = () => {
   const { isOpen, type } = useModalStore();

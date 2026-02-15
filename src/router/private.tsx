@@ -17,6 +17,10 @@ const LearnQuiz = lazy(() => import('@/pages/user/LearnQuiz'));
 const LearnReview = lazy(() => import('@/pages/user/LearnReview'));
 const CreateTest = lazy(() => import('@/pages/user/CreateTest'));
 const EditTest = lazy(() => import('@/pages/user/EditTest'));
+const TestOverview = lazy(() => import('@/pages/user/TestOverview'));
+const TestTaking = lazy(() => import('@/pages/user/TestTaking'));
+const TestResult = lazy(() => import('@/pages/user/TestResult'));
+const TestStats = lazy(() => import('@/pages/user/TestStats'));
 
 //user page
 const Account = lazy(() => import('@/pages/user/Account'));
@@ -51,6 +55,10 @@ const PrivateRoutes: RouteObject[] = [
       { path: ROUTE_PATH.USER.STUDY_SET.LEARN_REVIEW.PATH, element: <LearnReview /> },
       { path: ROUTE_PATH.USER.TEST.CREATE, element: <CreateTest /> },
       { path: ROUTE_PATH.USER.TEST.EDIT.PATH, element: <EditTest /> },
+      { path: ROUTE_PATH.USER.TEST.OVERVIEW.PATH, element: <TestOverview /> },
+      { path: ROUTE_PATH.USER.TEST.TAKE.PATH, element: <TestTaking /> },
+      { path: ROUTE_PATH.USER.TEST.RESULT.PATH, element: <TestResult /> },
+      { path: ROUTE_PATH.USER.TEST.STATS.PATH, element: <TestStats /> },
     ],
   },
   {

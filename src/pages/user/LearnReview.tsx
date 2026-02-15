@@ -4,12 +4,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
+import QuestionCard from '@/components/user/learnReview/QuestionCard';
+import QuestionDashboard from '@/components/user/learnReview/QuestionDashboard';
+import ResultSummary from '@/components/user/learnReview/ResultSummary';
+
 import { ROUTE_PATH } from '@/constants';
 import { useStudySetService } from '@/service/studySet.service';
-import { Button } from '@/components/ui/button';
-import ResultSummary from '@/components/user/learnReview/ResultSummary';
-import QuestionDashboard from '@/components/user/learnReview/QuestionDashboard';
-import QuestionCard from '@/components/user/learnReview/QuestionCard';
 import { ManyAnswer } from '@/types';
 
 type AnswerMap = Record<
@@ -40,7 +41,7 @@ const LearnReview = () => {
 
   const submitMutation = useMutation({
     mutationFn: ({ id, answers }: { id: string; answers: ManyAnswer }) => submitManyStudyItem(id, answers),
-    onSuccess: () => { },
+    onSuccess: () => {},
   });
 
   const questions = studySet?.items ?? [];
@@ -99,9 +100,9 @@ const LearnReview = () => {
 
     const percent = Math.round((correctCount / totalQuestions) * 100);
 
-    let message = '💪 Cố gắng thêm';
-    if (percent >= 80) message = '🎯 Xuất sắc';
-    else if (percent >= 50) message = '👍 Khá tốt';
+    let message = 'Cố gắng thêm';
+    if (percent >= 80) message = 'Xuất sắc';
+    else if (percent >= 50) message = 'Khá tốt';
 
     return {
       scorePercent: percent,
@@ -122,14 +123,14 @@ const LearnReview = () => {
     const convertData = Object.entries(answers).map(([key, value]) => ({
       itemId: key,
       isCorrect: value.isCorrect,
-    }))
+    }));
     submitMutation.mutate({
       id,
       answers: convertData,
     });
-    setIsSubmitted(true)
+    setIsSubmitted(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  };
 
   if (isLoading) {
     return (
@@ -180,15 +181,13 @@ const LearnReview = () => {
         />
       )}
 
-      <div className='flex gap-6 items-start'>
+      <div className="flex items-start gap-6">
         {/*dash board  */}
         <QuestionDashboard
           questions={questions}
           answers={answers}
           isSubmitted={isSubmitted}
-          onJump={(id) =>
-            questionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-          }
+          onJump={(id) => questionRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
         />
 
         {/* list ques */}
@@ -206,12 +205,8 @@ const LearnReview = () => {
           ))}
           {/* Submit Bar */}
           {!isSubmitted && (
-            <div className="w-full flex justify-center">
-              <Button
-                size={'lg'}
-                onClick={handleSubmit}
-                className="cursor-pointer hover:scale-105 px-20"
-              >
+            <div className="flex w-full justify-center">
+              <Button size={'lg'} onClick={handleSubmit} className="cursor-pointer px-20 hover:scale-105">
                 Nộp bài
               </Button>
             </div>

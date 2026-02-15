@@ -74,8 +74,9 @@ const MyLibrary = () => {
                   onClick={() => {
                     setQuery({ tab: tab.value });
                   }}
-                  className={`relative flex items-center gap-3 px-6 py-4 font-semibold transition-all ${activeTab === tab.value ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                    }`}
+                  className={`relative flex items-center gap-3 px-6 py-4 font-semibold transition-all ${
+                    activeTab === tab.value ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                  }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span>{tab.label}</span>

@@ -37,6 +37,22 @@ export const ROUTE_PATH = {
         PATH: '/test/:id/edit',
         LINK: (id: string) => `/test/${id}/edit`,
       },
+      OVERVIEW: {
+        PATH: '/test/:id',
+        LINK: (id: string) => `/test/${id}`,
+      },
+      TAKE: {
+        PATH: '/test/:id/take/:attemptId',
+        LINK: (id: string, attemptId: string) => `/test/${id}/take/${attemptId}`,
+      },
+      RESULT: {
+        PATH: '/test/:id/result/:attemptId',
+        LINK: (id: string, attemptId: string) => `/test/${id}/result/${attemptId}`,
+      },
+      STATS: {
+        PATH: '/test/:id/stats',
+        LINK: (id: string) => `/test/${id}/stats`,
+      },
     },
   },
   ADMIN: {

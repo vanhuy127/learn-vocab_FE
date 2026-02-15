@@ -10,8 +10,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useModalStore } from '@/store';
 import { useTestService } from '@/service/test.service';
+import { useModalStore } from '@/store';
 
 const ConfirmDeleteTestModal = () => {
   const { isOpen, data, closeModal } = useModalStore();

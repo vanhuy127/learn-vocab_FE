@@ -1,4 +1,5 @@
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,7 +11,6 @@ import {
 
 import { MODAL_TYPE, ROUTE_PATH } from '@/constants';
 import { useModalStore } from '@/store';
-import { useNavigate } from 'react-router-dom';
 
 interface Props {
   testId: string;
@@ -18,7 +18,7 @@ interface Props {
 
 const TestActionsDropdown = ({ testId }: Props) => {
   const { openModal } = useModalStore();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <DropdownMenu>
@@ -37,7 +37,7 @@ const TestActionsDropdown = ({ testId }: Props) => {
         <DropdownMenuItem
           onClick={(e) => {
             e.stopPropagation();
-            navigate(ROUTE_PATH.USER.TEST.EDIT.LINK(testId))
+            navigate(ROUTE_PATH.USER.TEST.EDIT.LINK(testId));
           }}
         >
           <Pencil className="mr-2 h-4 w-4" />

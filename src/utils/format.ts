@@ -19,3 +19,10 @@ export function parseDateFromString(dateStr: string): Date | undefined {
 
   return new Date(year, month - 1, day);
 }
+
+export const formatDuration = (seconds: number) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+
+  return `${mins} phút ${secs} giây`;
+};

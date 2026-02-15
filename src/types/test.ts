@@ -6,6 +6,7 @@ export type CreateTestPayload = {
   duration?: number;
   accessLevel: CreateTestFormValues['accessLevel'];
   questions: Array<{
+    id?: string;
     questionType: CreateTestFormValues['questions'][number]['questionType'];
     questionText: string;
     position?: number;
@@ -17,5 +18,12 @@ export type CreateTestPayload = {
       position?: number;
     }>;
     fillAnswers?: string[];
+  }>;
+};
+
+export type TestSubmitPayload = {
+  answers: Array<{
+    questionId: string;
+    answer: string | string[];
   }>;
 };
