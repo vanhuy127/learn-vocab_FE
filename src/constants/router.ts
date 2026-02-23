@@ -8,6 +8,13 @@ export const ROUTE_PATH = {
     HOME: '/',
     SEARCH: '/search',
     LIBRARY: '/library',
+    BATTLE: {
+      MATCHMAKING: '/battle',
+      ROOM: {
+        PATH: '/battle/:roomId',
+        LINK: (roomId: string) => `/battle/${roomId}`,
+      },
+    },
     STUDY_SET: {
       CREATE: '/study-set/create',
       EDIT: {
