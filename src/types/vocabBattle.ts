@@ -19,6 +19,7 @@ export type SocketState = {
   setTimer: (t: number) => void;
   decrementTimer: () => void;
   setMatchId: (id: string | null) => void;
+  resetBattle: () => void;
 };
 
 export type BattleStatus = 'idle' | 'ready' | 'queue' | 'matched' | 'playing' | 'finished';
@@ -33,4 +34,15 @@ export type Question = {
 export type Option = {
   label: 'A' | 'B' | 'C' | 'D';
   text: string;
+};
+
+export type RejoinPayload = {
+  leaderboard?: Record<string, { name: string; score: number }>;
+  matchId?: string;
+  question?: unknown;
+  roomId?: string;
+  status?: 'matched' | 'playing' | 'finished';
+  timeLimit?: number;
+  timer?: number;
+  totalQuestions?: number;
 };

@@ -11,8 +11,8 @@ export const ROUTE_PATH = {
     BATTLE: {
       MATCHMAKING: '/battle',
       ROOM: {
-        PATH: '/battle/:roomId',
-        LINK: (roomId: string) => `/battle/${roomId}`,
+        PATH: '/battle/:id',
+        LINK: (id: string) => `/battle/${id}`,
       },
     },
     STUDY_SET: {
