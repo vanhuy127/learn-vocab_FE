@@ -21,6 +21,8 @@ const TestOverview = lazy(() => import('@/pages/user/TestOverview'));
 const TestTaking = lazy(() => import('@/pages/user/TestTaking'));
 const TestResult = lazy(() => import('@/pages/user/TestResult'));
 const TestStats = lazy(() => import('@/pages/user/TestStats'));
+const VocabBattleMatchmaking = lazy(() => import('@/pages/user/VocabBattleMatchmaking'));
+const VocabBattleRoom = lazy(() => import('@/pages/user/VocabBattleRoom'));
 
 //user page
 const Account = lazy(() => import('@/pages/user/Account'));
@@ -59,6 +61,14 @@ const PrivateRoutes: RouteObject[] = [
       { path: ROUTE_PATH.USER.TEST.TAKE.PATH, element: <TestTaking /> },
       { path: ROUTE_PATH.USER.TEST.RESULT.PATH, element: <TestResult /> },
       { path: ROUTE_PATH.USER.TEST.STATS.PATH, element: <TestStats /> },
+      {
+        path: ROUTE_PATH.USER.BATTLE.MATCHMAKING,
+        element: <VocabBattleMatchmaking />,
+      },
+      {
+        path: ROUTE_PATH.USER.BATTLE.ROOM.PATH,
+        element: <VocabBattleRoom />,
+      },
     ],
   },
   {

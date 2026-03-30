@@ -34,6 +34,7 @@ export default function Header() {
     { name: 'Trang chủ', href: ROUTE_PATH.USER.HOME },
     { name: 'Tìm kiếm', href: ROUTE_PATH.USER.SEARCH },
     { name: 'Thư viện của tôi', href: ROUTE_PATH.USER.LIBRARY },
+    { name: 'Thách đấu', href: ROUTE_PATH.USER.BATTLE.MATCHMAKING },
   ];
 
   const userMenuItems = {

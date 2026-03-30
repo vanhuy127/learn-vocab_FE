@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -7,10 +9,22 @@ import { Toaster } from '@/components/ui/sonner';
 import { AppRouter } from '@/router/appRouter';
 
 import ModalRoot from './components/ModelRoot';
+import { useSocketStore } from './store';
 
 const queryClient = new QueryClient();
 
 function App() {
+  const accessToken = localStorage.getItem('accessToken');
+  const { connectSocket, disconnectSocket } = useSocketStore();
+
+  useEffect(() => {
+    if (accessToken) {
+      connectSocket();
+    }
+
+    return () => disconnectSocket();
+  }, [accessToken]);
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="theme">
       <QueryClientProvider client={queryClient}>
