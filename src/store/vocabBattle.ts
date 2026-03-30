@@ -1,15 +1,13 @@
 import { Socket, io } from 'socket.io-client';
 import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { envConfig } from '@/config/env';
 
 import { SocketState } from './../types/vocabBattle';
 
 const socketURL = envConfig.VITE_SOCKET_URL;
-
-export const useSocketStore = create<SocketState>((set, get) => ({
-  socket: null,
-
+const battleStateDefaults = {
   status: 'idle',
   question: null,
   totalQuestions: 0,
@@ -17,38 +15,65 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   timer: 30,
   initialTimer: 30,
   matchId: null,
+} as const;
 
-  connectSocket: () => {
-    const accessToken = localStorage.getItem('accessToken');
-    const existingSocket = get().socket;
+export const useSocketStore = create<SocketState>()(
+  persist(
+    (set, get) => ({
+      socket: null,
+      ...battleStateDefaults,
 
-    if (existingSocket) return;
+      connectSocket: () => {
+        const accessToken = localStorage.getItem('accessToken');
+        const existingSocket = get().socket;
 
-    const socket: Socket = io(socketURL, {
-      auth: { token: accessToken },
-      transports: ['websocket'],
-    });
+        if (existingSocket) return;
 
-    set({ socket });
+        const socket: Socket = io(socketURL, {
+          auth: { token: accessToken },
+          transports: ['websocket'],
+        });
 
-    socket.on('connect', () => {
-      console.warn('Connected to socket server');
-    });
-  },
-  disconnectSocket: () => {
-    const socket = get().socket;
-    if (socket) {
-      socket.disconnect();
-      set({ socket: null });
+        set({ socket });
 
-      console.warn('Disconnected from socket server');
-    }
-  },
-  setStatus: (status) => set({ status }),
-  setQuestion: (question) => set({ question }),
-  setTotalQuestions: (totalQuestions) => set({ totalQuestions }),
-  setLeaderboard: (leaderboard) => set({ leaderboard }),
-  setTimer: (timer) => set({ timer, initialTimer: timer }),
-  decrementTimer: () => set((state) => ({ timer: Math.max(state.timer - 1, 0) })),
-  setMatchId: (matchId) => set({ matchId }),
-}));
+        socket.on('connect', () => {
+          console.warn('Connected to socket server');
+        });
+      },
+      disconnectSocket: () => {
+        const socket = get().socket;
+        if (socket) {
+          socket.disconnect();
+          set({ socket: null });
+          get().resetBattle();
+
+          console.warn('Disconnected from socket server');
+        }
+      },
+      setStatus: (status) => set({ status }),
+      setQuestion: (question) => set({ question }),
+      setTotalQuestions: (totalQuestions) => set({ totalQuestions }),
+      setLeaderboard: (leaderboard) => set({ leaderboard }),
+      setTimer: (timer) => set({ timer, initialTimer: timer }),
+      decrementTimer: () => set((state) => ({ timer: Math.max(state.timer - 1, 0) })),
+      setMatchId: (matchId) => set({ matchId }),
+      resetBattle: () =>
+        set({
+          ...battleStateDefaults,
+        }),
+    }),
+    {
+      name: 'vocab-battle-state',
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        status: state.status,
+        question: state.question,
+        totalQuestions: state.totalQuestions,
+        leaderboard: state.leaderboard,
+        timer: state.timer,
+        initialTimer: state.initialTimer,
+        matchId: state.matchId,
+      }),
+    },
+  ),
+);

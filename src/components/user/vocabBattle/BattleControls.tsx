@@ -1,14 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Brain, RotateCcw, Shield, Swords, Target, XCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
+import { ROUTE_PATH } from '@/constants';
 import { cn } from '@/lib/utils';
 import { useAuthStore, useSocketStore } from '@/store';
 
 const VocabularyBattleStart = () => {
-  const { socket, status, leaderboard } = useSocketStore();
+  const navigate = useNavigate();
+  const { socket, status, leaderboard, resetBattle } = useSocketStore();
   const { user } = useAuthStore();
 
   const joinQueue = () => socket?.emit('battle:queue:join');
@@ -42,6 +45,11 @@ const VocabularyBattleStart = () => {
             className: 'border-rose-400/60 text-rose-200',
           }
       : null;
+
+  const handleReset = () => {
+    resetBattle();
+    navigate(ROUTE_PATH.USER.BATTLE.MATCHMAKING);
+  };
 
   return (
     <div className="relative flex min-h-[500px] items-center justify-center overflow-hidden p-6 font-sans select-none">
@@ -100,7 +108,7 @@ const VocabularyBattleStart = () => {
                 {/* NÚT BẮT ĐẦU MỚI */}
                 <Button
                   onClick={joinQueue}
-                  className="group relative h-20 w-full overflow-hidden rounded-2xl bg-indigo-600 p-0 shadow-[0_0_30px_-5px_rgba(79,70,229,0.6)] transition-all duration-300 hover:bg-indigo-500"
+                  className="group relative h-20 w-full cursor-pointer overflow-hidden rounded-2xl bg-indigo-600 p-0 shadow-[0_0_30px_-5px_rgba(79,70,229,0.6)] transition-all duration-300 hover:bg-indigo-500"
                 >
                   {/* Lớp phủ linear khi Hover */}
                   <div className="absolute inset-0 bg-linear-to-r from-indigo-600 via-purple-600 to-indigo-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -189,7 +197,7 @@ const VocabularyBattleStart = () => {
                 )}
 
                 <Button
-                  onClick={joinQueue}
+                  onClick={handleReset}
                   className="h-16 w-full rounded-xl bg-emerald-600 text-lg font-black text-white uppercase italic shadow-lg shadow-emerald-900/20 transition-all hover:bg-emerald-500"
                 >
                   <RotateCcw className="mr-2 h-5 w-5" />
