@@ -71,8 +71,9 @@ export default function Header() {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`group relative rounded-full px-4 py-2 font-medium transition-colors duration-300 ${isActive ? 'text-primary' : 'text-foreground/70 hover:text-primary'
-                    }`}
+                  className={`group relative rounded-full px-4 py-2 font-medium transition-colors duration-300 ${
+                    isActive ? 'text-primary' : 'text-foreground/70 hover:text-primary'
+                  }`}
                 >
                   {/* 1. Phần chữ hiển thị bên trên */}
                   <span className="relative z-10">{item.name}</span>
@@ -88,8 +89,9 @@ export default function Header() {
 
                   {/* 3. Phần gạch chân hover */}
                   <span
-                    className={`bg-primary absolute -bottom-1 left-4 h-0.5 w-0 transition-all duration-300 ${!isActive && 'group-hover:w-[calc(100%-2rem)]'
-                      }`}
+                    className={`bg-primary absolute -bottom-1 left-4 h-0.5 w-0 transition-all duration-300 ${
+                      !isActive && 'group-hover:w-[calc(100%-2rem)]'
+                    }`}
                   />
                 </Link>
               );
@@ -159,10 +161,11 @@ export default function Header() {
                     key={item.name}
                     to={item.href}
                     onClick={() => setIsOpen(false)}
-                    className={`rounded-xl px-4 py-3 text-center font-medium transition ${isActive
-                      ? 'border-primary/20 bg-primary/12 text-primary border'
-                      : 'text-foreground/70 hover:text-primary hover:bg-muted'
-                      }`}
+                    className={`rounded-xl px-4 py-3 text-center font-medium transition ${
+                      isActive
+                        ? 'border-primary/20 bg-primary/12 text-primary border'
+                        : 'text-foreground/70 hover:text-primary hover:bg-muted'
+                    }`}
                   >
                     {item.name}
                   </Link>
