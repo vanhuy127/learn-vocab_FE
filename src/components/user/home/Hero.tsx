@@ -1,4 +1,7 @@
 import { ArrowRight, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { ROUTE_PATH } from '@/constants';
 
 const Hero = () => {
   return (
@@ -27,9 +30,12 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
-            <button className="from-primary to-accent text-primary-foreground hover:shadow-primary/40 flex transform items-center justify-center gap-2 rounded-lg bg-linear-to-r px-8 py-4 font-semibold transition-all hover:scale-105 hover:shadow-lg">
+            <Link
+              to={ROUTE_PATH.USER.SEARCH}
+              className="from-primary to-accent text-primary-foreground hover:shadow-primary/40 flex transform items-center justify-center gap-2 rounded-lg bg-linear-to-r px-8 py-4 font-semibold transition-all hover:scale-105 hover:shadow-lg"
+            >
               Bắt đầu miễn phí <ArrowRight className="h-5 w-5" />
-            </button>
+            </Link>
           </div>
 
           {/* Stats */}

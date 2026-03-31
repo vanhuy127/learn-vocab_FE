@@ -167,9 +167,9 @@ const VocabularyBattleStart = () => {
                 </div>
 
                 <Button
-                  variant="outline"
+                  variant="destructive"
                   onClick={leaveQueue}
-                  className="h-12 w-full rounded-xl border-slate-800 bg-transparent text-xs font-bold tracking-widest text-slate-400 uppercase transition-all hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
+                  className="h-12 w-full cursor-pointer rounded-xl border-slate-800 bg-transparent text-xs font-bold tracking-widest text-slate-400 uppercase transition-all hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
                 >
                   <XCircle className="mr-2 h-4 w-4" />
                   Hủy tìm trận

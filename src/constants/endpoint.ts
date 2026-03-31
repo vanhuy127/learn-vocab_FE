@@ -4,6 +4,7 @@ export const END_POINT = {
     ME: '/auth/me',
     REFRESH_TOKEN: '/auth/refresh-token',
     LOGIN: '/auth/login',
+    REGISTER: '/auth/register',
   },
   SHARED: {
     LANGUAGE: {
@@ -14,6 +15,7 @@ export const END_POINT = {
     SEARCH: '/search',
     STUDY_SET: {
       CURRENT_LIST: '/study-set/current-user',
+      LIST: '/study-set',
       CREATE: '/study-set',
       GET_BY_ID: (id: string) => `/study-set/${id}`,
       GET_BY_ID_FOR_QUIZ: (id: string) => `/study-set/${id}/quiz`,

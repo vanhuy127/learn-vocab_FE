@@ -1,6 +1,9 @@
 import React from 'react';
 
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { ROUTE_PATH } from '@/constants';
 
 const CTA = () => {
   return (
@@ -13,9 +16,12 @@ const CTA = () => {
         <p className="text-foreground/70 mb-8 text-xl leading-relaxed text-balance">
           Hôm nay là ngày hoàn hảo để bắt đầu hành trình học từ vựng của bạn
         </p>
-        <button className="from-accent to-primary text-accent-foreground hover:shadow-accent/40 inline-flex transform items-center gap-2 rounded-lg bg-linear-to-r px-10 py-4 text-lg font-semibold transition-all hover:scale-105 hover:shadow-xl">
+        <Link
+          to={ROUTE_PATH.AUTH.REGISTER}
+          className="from-accent to-primary text-accent-foreground hover:shadow-accent/40 inline-flex transform items-center gap-2 rounded-lg bg-linear-to-r px-10 py-4 text-lg font-semibold transition-all hover:scale-105 hover:shadow-xl"
+        >
           Đăng ký miễn phí ngay <ArrowRight className="h-6 w-6" />
-        </button>
+        </Link>
       </div>
     </section>
   );
