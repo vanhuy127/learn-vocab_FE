@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { EyeIcon, EyeOffIcon, LockIcon, MailIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -29,8 +29,8 @@ const Login = () => {
   const { login } = useAuthService();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const returnUrl = new URLSearchParams(location.search).get('returnUrl');
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect') || ROUTE_PATH.USER.HOME;
 
   const {
     register,
@@ -46,7 +46,7 @@ const Login = () => {
 
   const loginMutation = useMutation({
     mutationFn: ({ email, password }: FormData) => login(email, password),
-    onSuccess: () => navigate(returnUrl || ROUTE_PATH.USER.HOME, { replace: true }),
+    onSuccess: () => navigate(redirect, { replace: true }),
   });
 
   const onSubmit = (data: FormData) => {

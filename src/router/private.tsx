@@ -33,7 +33,14 @@ const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
 const PrivateRoute = React.memo(({ children, roles }: { children: React.ReactNode; roles?: string[] }) => {
   const { user } = useAuthStore();
   const location = useLocation();
-  if (!user) return <Navigate to={ROUTE_PATH.AUTH.LOGIN} state={{ from: location }} replace />;
+  if (!user)
+    return (
+      <Navigate
+        to={`${ROUTE_PATH.AUTH.LOGIN}?redirect=${encodeURIComponent(location.pathname)}`}
+        state={{ from: location }}
+        replace
+      />
+    );
   if (roles && !roles.includes(user.role)) return <Navigate to={ROUTE_PATH.UNAUTHORIZE} replace />;
 
   return <>{children}</>;
