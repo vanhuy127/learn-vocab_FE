@@ -1,13 +1,27 @@
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { axiosClient } from '@/config/axios';
-import { END_POINT, LOCAL_STORAGE_KEY, MESSAGE_CODE } from '@/constants';
+import { END_POINT, LOCAL_STORAGE_KEY, MESSAGE_CODE, ROUTE_PATH } from '@/constants';
 import { IResponse, IUserAccount, IUserAccountResponse } from '@/interface';
 import { useAuthStore } from '@/store';
 import { removeLocalStorage, setLocalStorage } from '@/utils';
 
 export const useAuthService = () => {
   const { setUser } = useAuthStore();
+  const navigate = useNavigate();
+
+  const register = async (userName: string, email: string, password: string) => {
+    const res: IResponse<IUserAccountResponse> = await axiosClient.post(END_POINT.AUTH.REGISTER, {
+      userName,
+      email,
+      password,
+    });
+    if (res.success) {
+      toast.success(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+      navigate(ROUTE_PATH.AUTH.LOGIN);
+    }
+  };
 
   const login = async (email: string, password: string) => {
     const res: IResponse<IUserAccountResponse> = await axiosClient.post(END_POINT.AUTH.LOGIN, { email, password });
@@ -39,6 +53,7 @@ export const useAuthService = () => {
   };
 
   return {
+    register,
     login,
     getMe,
     logout,

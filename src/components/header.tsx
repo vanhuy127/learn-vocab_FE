@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import { Menu, User, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { ROLE, ROUTE_PATH } from '@/constants';
 import { useAuthService } from '@/service/auth.service';
@@ -22,6 +23,7 @@ import AddControl from './user/AddControl';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   const { user } = useAuthStore();
   const { logout } = useAuthService();
@@ -42,6 +44,14 @@ export default function Header() {
     [ROLE.USER]: [{ name: 'Tài khoản', href: ROUTE_PATH.USER.ACCOUNT }],
   };
 
+  const isActivePath = (href: string) => {
+    if (href === ROUTE_PATH.USER.HOME) {
+      return location.pathname === href;
+    }
+
+    return location.pathname.startsWith(href);
+  };
+
   return (
     <header className="border-border bg-background/80 sticky top-0 z-50 w-full border-b backdrop-blur-md">
       <div className="mx-auto max-w-6xl px-4">
@@ -53,18 +63,37 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop Menu */}
-          <nav className="hidden items-center gap-8 md:flex">
-            {navigationItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-foreground/70 hover:text-primary group relative font-medium transition"
-              >
-                {item.name}
-                <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
+          <nav className="hidden items-center gap-4 md:flex">
+            {navigationItems.map((item) => {
+              const isActive = isActivePath(item.href);
+
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`group relative rounded-full px-4 py-2 font-medium transition-colors duration-300 ${isActive ? 'text-primary' : 'text-foreground/70 hover:text-primary'
+                    }`}
+                >
+                  {/* 1. Phần chữ hiển thị bên trên */}
+                  <span className="relative z-10">{item.name}</span>
+
+                  {/* 2. Phần nền trượt (Chỉ render khi isActive = true) */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeTab"
+                      className="bg-primary/12 shadow-primary/10 absolute inset-0 z-0 rounded-full shadow-sm"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+
+                  {/* 3. Phần gạch chân hover */}
+                  <span
+                    className={`bg-primary absolute -bottom-1 left-4 h-0.5 w-0 transition-all duration-300 ${!isActive && 'group-hover:w-[calc(100%-2rem)]'
+                      }`}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Desktop Actions */}
@@ -122,16 +151,23 @@ export default function Header() {
         {isOpen && (
           <div className="border-border bg-background/95 animate-in fade-in border-t backdrop-blur-md md:hidden">
             <nav className="flex flex-col gap-3 px-4 py-4">
-              {navigationItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-foreground/70 hover:text-primary text-center font-medium transition"
-                >
-                  {item.name}
-                </a>
-              ))}
+              {navigationItems.map((item) => {
+                const isActive = isActivePath(item.href);
+
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`rounded-xl px-4 py-3 text-center font-medium transition ${isActive
+                      ? 'border-primary/20 bg-primary/12 text-primary border'
+                      : 'text-foreground/70 hover:text-primary hover:bg-muted'
+                      }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
               {user ? (
                 <Button
                   onClick={() => logoutMutation.mutate()}

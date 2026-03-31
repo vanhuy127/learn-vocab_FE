@@ -1,59 +1,47 @@
-import { Monitor, Moon, Sun } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Moon, Sun } from 'lucide-react';
 
-import { type Theme, useTheme } from '@/components/themeProvider';
+import { useTheme } from '@/components/themeProvider';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-
-type Item = {
-  value: Theme;
-  label: string;
-  icon: React.ReactNode;
-};
-
-const items: Item[] = [
-  {
-    value: 'light',
-    label: 'Light',
-    icon: <Sun />,
-  },
-  {
-    value: 'dark',
-    label: 'Dark',
-    icon: <Moon />,
-  },
-  {
-    value: 'system',
-    label: 'System',
-    icon: <Monitor />,
-  },
-];
 
 const ThemeControl = () => {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    if (theme === 'light') setTheme('dark');
+    else setTheme('light');
+  };
+
+  const getCurrentIcon = () => {
+    switch (theme) {
+      case 'light':
+        return <Sun className="h-5 w-5 text-orange-500" />;
+      case 'dark':
+        return <Moon className="h-5 w-5 text-blue-400" />;
+    }
+  };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="bg-muted w-9">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {items.map((item) => (
-          <DropdownMenuItem key={item.value} onClick={() => setTheme(item.value)} className="cursor-pointer">
-            {item.icon}
-            {item.label}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      className="bg-muted/50 hover:bg-muted relative h-10 w-10 overflow-hidden rounded-full"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={theme} // Key thay đổi sẽ kích hoạt animation
+          initial={{ y: 20, opacity: 0, rotate: -90 }}
+          animate={{ y: 0, opacity: 1, rotate: 0 }}
+          exit={{ y: -20, opacity: 0, rotate: 90 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className="flex items-center justify-center"
+        >
+          {getCurrentIcon()}
+        </motion.div>
+      </AnimatePresence>
+      <span className="sr-only">Chuyển đổi giao diện</span>
+    </Button>
   );
 };
 

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 
+import ScrollToTopButton from '@/components/scrollToTopButton';
 import { ThemeProvider } from '@/components/themeProvider';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -32,6 +33,7 @@ function App() {
 
         <BrowserRouter>
           <AppRouter />
+          <ScrollToTopButton />
           <ModalRoot />
         </BrowserRouter>
       </QueryClientProvider>

@@ -15,11 +15,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { ROUTE_PATH } from '@/constants';
+import { passwordSchema } from '@/schema/auth.schema';
 import { useAuthService } from '@/service/auth.service';
 
 const schema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: passwordSchema,
 });
 
 type FormData = z.infer<typeof schema>;
@@ -56,8 +57,8 @@ const Login = () => {
     <div className="w-full max-w-md">
       <Card className="border-border bg-card w-full border shadow-xl backdrop-blur-sm">
         <CardHeader className="space-y-1 pt-3 pb-5 text-center">
-          <h1 className="text-foreground text-2xl font-bold">Welcome Back</h1>
-          <p className="text-muted-foreground mt-2 text-sm">Sign in to your account</p>
+          <h1 className="text-foreground text-2xl font-bold">YuhNav Learning</h1>
+          <p className="text-muted-foreground mt-2 text-sm">Đăng nhập để tiếp tục</p>
         </CardHeader>
 
         <CardContent className="px-8 pb-8">
@@ -66,12 +67,12 @@ const Login = () => {
             <div className="space-y-2">
               <Label htmlFor="email" className="text-foreground flex items-center gap-2 font-medium">
                 <MailIcon className="text-accent h-4 w-4" />
-                Email Address
+                Email
               </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Nhập địa chỉ email của bạn"
                 {...register('email')}
                 className={`text-foreground focus:border-primary focus:ring-primary/30 border-2 py-3 pr-4 pl-4 transition-all duration-200 ${
                   errors.email
@@ -91,7 +92,7 @@ const Login = () => {
                 </Label>
 
                 <button type="button" className="text-primary hover:text-primary/80 text-xs font-medium" tabIndex={-1}>
-                  Forgot password?
+                  Quên mật khẩu?
                 </button>
               </div>
 
@@ -99,7 +100,7 @@ const Login = () => {
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder="Nhập mật khẩu của bạn"
                   {...register('password')}
                   className={`text-foreground focus:border-primary focus:ring-primary/30 border-2 py-3 pr-12 pl-4 transition-all duration-200 ${
                     errors.password
@@ -129,26 +130,26 @@ const Login = () => {
               {loginMutation.isPending ? (
                 <div className="flex items-center gap-2">
                   <div className="border-primary-foreground h-4 w-4 animate-spin rounded-full border-2 border-t-transparent"></div>
-                  Signing in...
+                  Đăng nhập...
                 </div>
               ) : (
-                'Sign In'
+                'Đăng nhập'
               )}
             </Button>
 
             {/* SIGNUP */}
             <div className="text-center">
               <p className="text-muted-foreground text-sm">
-                {"Don't have an account?"}{' '}
+                {'Bạn chưa có tài khoản?'}{' '}
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     navigate(ROUTE_PATH.AUTH.REGISTER);
                   }}
                   type="button"
-                  className="text-primary hover:text-primary/80 font-medium"
+                  className="text-primary hover:text-primary/80 cursor-pointer font-medium"
                 >
-                  Sign up
+                  Đăng ký
                 </button>
               </p>
             </div>

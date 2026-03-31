@@ -2,11 +2,19 @@ import { toast } from 'sonner';
 
 import { axiosClient } from '@/config/axios';
 import { END_POINT, MESSAGE_CODE } from '@/constants';
-import { IQuiz, IResponse, IStudySetExtended, IStudySetSearch } from '@/interface';
+import { IListResponse, IParamsBase, IQuiz, IResponse, IStudySetExtended, IStudySetSearch } from '@/interface';
 import { CreateStudySetFormValues } from '@/schema/studySet.schema';
 import { ManyAnswer } from '@/types';
 
 export const useStudySetService = () => {
+  const getStudySet = async (params?: IParamsBase) => {
+    const res: IListResponse<IStudySetSearch[]> = await axiosClient.get(END_POINT.USER.STUDY_SET.LIST, {
+      params,
+    });
+
+    return res.data;
+  };
+
   const getStudySetCurrent = async ({ search }: { search: string }) => {
     const res: IResponse<IStudySetSearch[]> = await axiosClient.get(END_POINT.USER.STUDY_SET.CURRENT_LIST, {
       params: { search },
@@ -105,6 +113,7 @@ export const useStudySetService = () => {
   };
 
   return {
+    getStudySet,
     getStudySetCurrent,
     createStudySet,
     getStudySetById,
