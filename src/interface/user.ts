@@ -9,7 +9,6 @@ export interface IUserAccount {
 
 export interface IUserAccountResponse extends IUserAccount {
   accessToken: string;
-  refreshToken: string;
 }
 
 export interface IUser {

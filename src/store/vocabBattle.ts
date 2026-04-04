@@ -23,11 +23,19 @@ export const useSocketStore = create<SocketState>()(
       socket: null,
       ...battleStateDefaults,
 
-      connectSocket: () => {
-        const accessToken = localStorage.getItem('accessToken');
+      connectSocket: (accessToken) => {
         const existingSocket = get().socket;
 
-        if (existingSocket) return;
+        if (existingSocket) {
+          const currentToken =
+            existingSocket.auth && typeof existingSocket.auth === 'object' && 'token' in existingSocket.auth
+              ? existingSocket.auth.token
+              : null;
+
+          if (currentToken === accessToken) return;
+
+          existingSocket.disconnect();
+        }
 
         const socket: Socket = io(socketURL, {
           auth: { token: accessToken },

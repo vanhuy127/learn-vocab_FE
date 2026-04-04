@@ -10,21 +10,23 @@ import { Toaster } from '@/components/ui/sonner';
 import { AppRouter } from '@/router/appRouter';
 
 import ModalRoot from './components/ModelRoot';
-import { useSocketStore } from './store';
+import { useAuthStore, useSocketStore } from './store';
 
 const queryClient = new QueryClient();
 
 function App() {
-  const accessToken = localStorage.getItem('accessToken');
+  const { accessToken } = useAuthStore();
   const { connectSocket, disconnectSocket } = useSocketStore();
 
   useEffect(() => {
     if (accessToken) {
-      connectSocket();
+      connectSocket(accessToken);
+    } else {
+      disconnectSocket();
     }
 
     return () => disconnectSocket();
-  }, [accessToken]);
+  }, [accessToken, connectSocket, disconnectSocket]);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="theme">

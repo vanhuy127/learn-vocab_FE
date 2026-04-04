@@ -1,34 +1,64 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse, CreateAxiosDefaults } from 'axios';
 import { toast } from 'sonner';
 
-import { END_POINT, LOCAL_STORAGE_KEY, MESSAGE_CODE, SYSTEM_ERROR } from '@/constants';
+import { END_POINT, MESSAGE_CODE, SYSTEM_ERROR } from '@/constants';
 import { IResponse } from '@/interface';
-import { getLocalStorage, removeLocalStorage, setLocalStorage } from '@/utils';
+import { useAuthStore } from '@/store';
 
 import { envConfig } from './env';
 
-let refreshTokenPromise: Promise<void> | null = null;
+let refreshTokenPromise: Promise<string> | null = null;
 
-const createAxiosInstance = (
-  baseURL: string,
-  configs: CreateAxiosDefaults = {
-    timeout: 15000,
-    timeoutErrorMessage: SYSTEM_ERROR.TIMEOUT_ERROR.MESSAGE,
-    withCredentials: true,
-  },
-): AxiosInstance => {
+const defaultConfigs: CreateAxiosDefaults = {
+  timeout: 15000,
+  timeoutErrorMessage: SYSTEM_ERROR.TIMEOUT_ERROR.MESSAGE,
+  withCredentials: true,
+};
+
+const refreshClient = axios.create({
+  baseURL: envConfig.VITE_API_URL,
+  ...defaultConfigs,
+});
+
+export const refreshAccessToken = async () => {
+  if (!refreshTokenPromise) {
+    refreshTokenPromise = refreshClient
+      .post<IResponse<{ accessToken: string }>>(END_POINT.AUTH.REFRESH_TOKEN)
+      .then((response) => {
+        const accessToken = response.data.data?.accessToken ?? '';
+
+        if (!accessToken) {
+          throw new Error('Missing access token in refresh response');
+        }
+
+        useAuthStore.getState().setAccessToken(accessToken);
+
+        return accessToken;
+      })
+      .catch((error) => {
+        useAuthStore.getState().clearAuth();
+
+        return Promise.reject(error);
+      })
+      .finally(() => {
+        refreshTokenPromise = null;
+      });
+  }
+
+  return refreshTokenPromise;
+};
+
+const createAxiosInstance = (baseURL: string, configs: CreateAxiosDefaults = defaultConfigs): AxiosInstance => {
   const instance = axios.create({ baseURL, ...configs });
 
-  // Request Interceptor
   instance.interceptors.request.use(
     (config) => {
-      const token = getLocalStorage(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+      const token = useAuthStore.getState().accessToken;
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
 
-      // Disable cache
       config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
       config.headers['Pragma'] = 'no-cache';
       config.headers['Expires'] = '0';
@@ -38,7 +68,6 @@ const createAxiosInstance = (
     (error: AxiosError) => Promise.reject(error),
   );
 
-  // Response Interceptor
   instance.interceptors.response.use(
     (response: AxiosResponse) => response.data,
     async (error: AxiosError) => {
@@ -56,35 +85,24 @@ const createAxiosInstance = (
         return Promise.reject(error);
       }
 
-      if (error.response?.status === 410 && originalRequest) {
-        if (!refreshTokenPromise) {
-          const refreshToken = getLocalStorage(LOCAL_STORAGE_KEY.REFRESH_TOKEN);
-          refreshTokenPromise = instance
-            .post(END_POINT.AUTH.REFRESH_TOKEN, { refreshToken })
-            .then((res) => {
-              const { accessToken } = res.data;
-              setLocalStorage(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken);
-            })
-            .catch((_error) => {
-              removeLocalStorage(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-              removeLocalStorage(LOCAL_STORAGE_KEY.REFRESH_TOKEN);
+      if (
+        error.response.status === 410 &&
+        originalRequest &&
+        !originalRequest._retry &&
+        originalRequest.url !== END_POINT.AUTH.REFRESH_TOKEN
+      ) {
+        originalRequest._retry = true;
 
-              return Promise.reject(_error);
-            })
-            .finally(() => {
-              refreshTokenPromise = null;
-            });
-        }
-
-        return refreshTokenPromise.then(() => instance(originalRequest));
+        return refreshAccessToken().then(() => instance(originalRequest));
       }
 
-      if (error.response?.status !== 410) {
-        if (error.response?.status === 401) {
-          removeLocalStorage(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-          removeLocalStorage(LOCAL_STORAGE_KEY.REFRESH_TOKEN);
-        }
-        const { message_code } = error.response?.data as IResponse<null>;
+      if (error.response.status === 401) {
+        useAuthStore.getState().clearAuth();
+      }
+
+      if (error.response.status !== 410) {
+        const { message_code } = error.response.data as IResponse<null>;
+
         if (message_code) {
           const errorKey = MESSAGE_CODE[message_code as keyof typeof MESSAGE_CODE];
           toast.error(errorKey);

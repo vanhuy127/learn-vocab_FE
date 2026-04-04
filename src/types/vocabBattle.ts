@@ -10,7 +10,7 @@ export type SocketState = {
   initialTimer: number;
   matchId: string | null;
 
-  connectSocket: () => void;
+  connectSocket: (accessToken: string) => void;
   disconnectSocket: () => void;
   setStatus: (s: SocketState['status']) => void;
   setQuestion: (q: Question | null) => void;

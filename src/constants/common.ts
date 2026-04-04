@@ -4,8 +4,6 @@ import { AccessLevel, QuestionType } from '@/types';
 
 export const LOCAL_STORAGE_KEY = {
   LANGUAGE: 'language',
-  ACCESS_TOKEN: 'accessToken',
-  REFRESH_TOKEN: 'refreshToken',
   THEME: 'theme',
 };
 
