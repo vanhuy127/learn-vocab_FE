@@ -4,6 +4,7 @@ export const END_POINT = {
     ME: '/auth/me',
     REFRESH_TOKEN: '/auth/refresh-token',
     LOGIN: '/auth/login',
+    LOGOUT: '/auth/logout',
     REGISTER: '/auth/register',
   },
   SHARED: {
