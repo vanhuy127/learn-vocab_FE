@@ -21,6 +21,13 @@ export interface ITestSearch extends ITest {
   };
 }
 
+export interface IAdminTest extends ITest {
+  isDeleted: boolean;
+  _count: {
+    results: number;
+  };
+}
+
 export interface ITestOption {
   id?: string;
   label?: string;
@@ -100,6 +107,17 @@ export interface ITestResult {
   timeSpentSeconds: number;
   allowReview: boolean;
   questions?: ITestResultQuestion[];
+}
+
+export interface IAdminTestResult {
+  id: string;
+  score: number;
+  correctAnswers: number;
+  totalQuestions: number;
+  startedAt: Date;
+  finishedAt: Date;
+  createdAt: Date;
+  test: ITest;
 }
 
 export interface ITestStatsQuestion {

@@ -64,6 +64,20 @@ export const ROUTE_PATH = {
   },
   ADMIN: {
     DASHBOARD: '/admin/dashboard',
+    USERS: {
+      LIST: '/admin/users',
+      DETAILS: {
+        PATH: '/admin/users/:id',
+        LINK: (id: string) => `/admin/users/${id}`,
+      },
+    },
+    STUDY_SETS: {
+      LIST: '/admin/study-sets',
+      DETAILS: {
+        PATH: '/admin/study-sets/:id',
+        LINK: (id: string) => `/admin/study-sets/${id}`,
+      },
+    },
   },
   NOT_FOUND: '*',
   UNAUTHORIZE: '/unauthorized',

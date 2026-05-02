@@ -10,9 +10,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { IUserRes } from '@/interface';
+import { IStudySetAdmin } from '@/interface';
 
-const Action = ({ data }: { data: IUserRes }) => {
+const Action = ({ data }: { data: IStudySetAdmin }) => {
   // const { lockAccount, unlockAccount } = useAuthService();
   // const queryClient = useQueryClient();
   // const lockMutation = useMutation({

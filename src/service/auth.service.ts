@@ -53,6 +53,13 @@ export const useAuthService = () => {
     }
   };
 
+  const tokenRecovery = async (token: string) => {
+    const res: IResponse<null> = await axiosClient.delete(END_POINT.AUTH.TOKEN_RECOVERY(token));
+    if (res.success) {
+      toast.success(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+    }
+  };
+
   const bootstrapAuth = async () => {
     try {
       await refreshAccessToken();
@@ -68,5 +75,6 @@ export const useAuthService = () => {
     getMe,
     bootstrapAuth,
     logout,
+    tokenRecovery,
   };
 };

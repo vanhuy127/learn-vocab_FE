@@ -4,3 +4,4 @@ export * from './response';
 export * from './folder';
 export * from './studySet';
 export * from './test';
+export * from './battle';

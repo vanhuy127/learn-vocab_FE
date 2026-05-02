@@ -1,5 +1,6 @@
 import { Globe, Link, Lock, LucideIcon } from 'lucide-react';
 
+import { BattleStatus } from '@/interface';
 import { AccessLevel, QuestionType } from '@/types';
 
 export const LOCAL_STORAGE_KEY = {
@@ -60,4 +61,20 @@ export const QUESTION_TYPE_SHOWS: Record<QuestionType, string> = {
   [QUESTION_TYPE.FILL_IN]: 'Điền vào chỗ trống',
   [QUESTION_TYPE.T_F]: 'Đúng / Sai',
   [QUESTION_TYPE.MULTI_CHOICE]: 'Trắc nghiệm (Nhiều đáp án)',
+};
+
+export const BATTLE_STATUS = {
+  WAITING: 'WAITING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  FINISHED: 'FINISHED',
+  CANCELLED: 'CANCELLED',
+} as const;
+
+export const BATTLE_STATUS_ARRAY = Object.values(BATTLE_STATUS);
+
+export const BATTLE_STATUS_SHOWS: Record<BattleStatus, string> = {
+  [BATTLE_STATUS.WAITING]: 'Đang chờ',
+  [BATTLE_STATUS.IN_PROGRESS]: 'Đang diễn ra',
+  [BATTLE_STATUS.FINISHED]: 'Đã kết thúc',
+  [BATTLE_STATUS.CANCELLED]: 'Đã hủy',
 };

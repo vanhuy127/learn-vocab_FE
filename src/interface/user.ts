@@ -25,3 +25,19 @@ export interface IUserSearch extends IUser {
     studySets: number;
   };
 }
+
+export interface IUserRes extends IUser {
+  role: Role;
+  resetPwToken: string | null;
+  resetPwExpireAt: Date;
+  refreshTokens: IRefreshTokenRes[];
+}
+
+export interface IRefreshTokenRes {
+  id: string;
+  token: string;
+  userAgent: string;
+  ipAddress: string;
+  expiresAt: Date;
+  createdAt: Date;
+}

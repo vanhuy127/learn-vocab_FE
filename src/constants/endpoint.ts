@@ -6,6 +6,7 @@ export const END_POINT = {
     LOGIN: '/auth/login',
     LOGOUT: '/auth/logout',
     REGISTER: '/auth/register',
+    TOKEN_RECOVERY: (id: string) => `/auth/token/${id}`,
   },
   SHARED: {
     LANGUAGE: {
@@ -50,5 +51,21 @@ export const END_POINT = {
       HISTORY: (id: string) => `/test/${id}/history`,
     },
   },
-  ADMIN: {},
+  ADMIN: {
+    USER: {
+      GET_ALL: '/admin/users',
+      GET_BY_ID: (id: string) => `/admin/users/${id}`,
+      GET_STUDY_SETS_BY_USER_ID: (userId: string) => `/admin/users/${userId}/study-sets`,
+      GET_FOLDERS_BY_USER_ID: (userId: string) => `/admin/users/${userId}/folders`,
+      GET_HISTORY_LOGIN_BY_USER_ID: (userId: string) => `/admin/users/${userId}/refresh-tokens`,
+      GET_TESTS_BY_USER_ID: (userId: string) => `/admin/users/${userId}/tests`,
+      GET_TEST_RESULTS_BY_USER_ID: (userId: string) => `/admin/users/${userId}/test-results`,
+      GET_BATTLES_BY_USER_ID: (userId: string) => `/admin/users/${userId}/battles`,
+    },
+    STUDY_SET: {
+      GET_ALL: '/admin/study-sets',
+      GET_BY_ID: (id: string) => `/admin/study-sets/${id}`,
+      STATISTICS_BY_ID: (id: string) => `/admin/study-sets/${id}/statistics`,
+    },
+  },
 };
