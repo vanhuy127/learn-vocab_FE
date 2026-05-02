@@ -10,13 +10,13 @@ import Pagination from '@/components/pagination';
 import { MAX_PAGE_SHOW } from '@/constants';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useQueryParams } from '@/hooks/useQueryParams';
-import { useUserService } from '@/service/user.service';
+import { useStudySetService } from '@/service/studySet.service';
 
 import { TableData } from './components/Table';
 
 const index = () => {
   const { query, setQuery } = useQueryParams();
-  const { getAdminUsers } = useUserService();
+  const { getAdminStudySets } = useStudySetService();
   const { page = 1, search = '', size = MAX_PAGE_SHOW } = query;
   const [searchInput, setSearchInput] = useState(search);
   const debouncedSearch = useDebounce(searchInput);
@@ -28,9 +28,9 @@ const index = () => {
   }, [debouncedSearch]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['admin-users', page, debouncedSearch, size],
+    queryKey: ['admin-study-sets', page, debouncedSearch, size],
     queryFn: () =>
-      getAdminUsers({
+      getAdminStudySets({
         page,
         search: debouncedSearch,
         size,
@@ -40,13 +40,13 @@ const index = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-bold">Danh sách người dùng</h1>
+        <h1 className="text-3xl font-bold">Danh sách học phần</h1>
       </div>
 
       <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-1 md:grid-cols-3">
         {/* search */}
         <div className="w-full">
-          <SearchInput placeholder="Tìm kiếm người dùng" searchTerm={searchInput} onChange={setSearchInput} />
+          <SearchInput placeholder="Tìm kiếm học phần" searchTerm={searchInput} onChange={setSearchInput} />
         </div>
       </div>
 

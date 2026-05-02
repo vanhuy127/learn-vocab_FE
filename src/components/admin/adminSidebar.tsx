@@ -16,7 +16,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 
-import { ROLE, adminNavigationItems, companyNavigationItems } from '@/constants';
+import { ROLE, adminNavigationItems } from '@/constants';
 import { useAuthService } from '@/service/auth.service';
 import { useAuthStore } from '@/store';
 
@@ -26,7 +26,7 @@ const AdminSidebar = () => {
   const { logout } = useAuthService();
   const location = useLocation();
 
-  const navigationItems = user?.role === ROLE.ADMIN ? adminNavigationItems : companyNavigationItems;
+  const navigationItems = user?.role === ROLE.ADMIN ? adminNavigationItems : [];
 
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
@@ -44,7 +44,7 @@ const AdminSidebar = () => {
           </div>
           {open && (
             <div className="flex flex-col transition-all duration-300">
-              <span className="h-5 text-sm font-semibold">Xin chào, {user?.email.split('@')[0]}</span>
+              <span className="h-5 text-sm font-semibold">Xin chào, {user?.userName}</span>
               <span className="text-muted-foreground text-xs">{user?.role}</span>
             </div>
           )}

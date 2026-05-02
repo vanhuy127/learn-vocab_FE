@@ -29,6 +29,10 @@ const Account = lazy(() => import('@/pages/user/Account'));
 
 //admin page
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
+const UserList = lazy(() => import('@/pages/admin/user'));
+const UserDetails = lazy(() => import('@/pages/admin/user/Details'));
+const StudySetList = lazy(() => import('@/pages/admin/studySet'));
+const StudySetDetails = lazy(() => import('@/pages/admin/studySet/Details'));
 
 const PrivateRoute = React.memo(({ children, roles }: { children: React.ReactNode; roles?: string[] }) => {
   const { user } = useAuthStore();
@@ -92,7 +96,13 @@ const PrivateRoutes: RouteObject[] = [
         <AdminLayout />
       </PrivateRoute>
     ),
-    children: [{ path: ROUTE_PATH.ADMIN.DASHBOARD, element: <Dashboard /> }],
+    children: [
+      { path: ROUTE_PATH.ADMIN.DASHBOARD, element: <Dashboard /> },
+      { path: ROUTE_PATH.ADMIN.USERS.LIST, element: <UserList /> },
+      { path: ROUTE_PATH.ADMIN.USERS.DETAILS.PATH, element: <UserDetails /> },
+      { path: ROUTE_PATH.ADMIN.STUDY_SETS.LIST, element: <StudySetList /> },
+      { path: ROUTE_PATH.ADMIN.STUDY_SETS.DETAILS.PATH, element: <StudySetDetails /> },
+    ],
   },
 ];
 

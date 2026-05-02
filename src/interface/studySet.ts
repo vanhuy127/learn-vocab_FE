@@ -2,6 +2,7 @@ import { AccessLevel } from '@/types';
 
 import { IFolder } from './folder';
 import { ILanguage } from './language';
+import { IUser, IUserRes } from './user';
 import { IUserProcess } from './userProcess';
 
 export interface IStudySet {
@@ -22,6 +23,13 @@ export interface IStudySetSearch extends IStudySet {
   };
 }
 
+export interface IStudySetAdmin extends IStudySet {
+  _count: {
+    items: number;
+  };
+  user: IUser;
+}
+
 export interface VocabTerm {
   id: string;
   word: string;
@@ -29,6 +37,7 @@ export interface VocabTerm {
   note?: string;
   position: number;
   progress: IUserProcess[] | [];
+  isDeleted?: boolean;
 }
 export interface QuizTermOptions {
   id: string;
@@ -49,4 +58,55 @@ export interface IStudySetExtended extends IStudySet {
 
 export interface IQuiz extends IStudySet {
   items: QuizTerm[];
+}
+
+export interface IAdminStudySet extends IStudySet {
+  user: IUserRes;
+  _count: {
+    items: number;
+  };
+}
+
+export interface IAdminStudySetDetail extends IStudySet {
+  user: IUserRes;
+  isDeleted: boolean;
+  items: VocabTerm[];
+}
+
+export interface IAdminStudySetStatisticsResponse {
+  overview: {
+    totalItems: number;
+    totalUsersStudied: number;
+  };
+
+  progress: {
+    completionRate: number;
+    statusDistribution: {
+      NEW: number;
+      LEARNING: number;
+      MASTERED: number;
+    };
+  };
+
+  performance: {
+    accuracyRate: number | string;
+    avgAttemptsPerUser: number;
+  };
+
+  review: {
+    overdueItems: number;
+  };
+
+  content: {
+    difficultWords: DifficultWord[];
+  };
+}
+
+export interface DifficultWord {
+  id: string;
+  word: string;
+  meaning: string;
+  note: string | null;
+  wrongCount: number;
+  correctCount: number;
 }

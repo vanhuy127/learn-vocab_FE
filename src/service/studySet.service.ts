@@ -2,11 +2,53 @@ import { toast } from 'sonner';
 
 import { axiosClient } from '@/config/axios';
 import { END_POINT, MESSAGE_CODE } from '@/constants';
-import { IListResponse, IParamsBase, IQuiz, IResponse, IStudySetExtended, IStudySetSearch } from '@/interface';
+import {
+  IAdminStudySetDetail,
+  IAdminStudySetStatisticsResponse,
+  IListResponse,
+  IParamsBase,
+  IQuiz,
+  IResponse,
+  IStudySetAdmin,
+  IStudySetExtended,
+  IStudySetSearch,
+} from '@/interface';
 import { CreateStudySetFormValues } from '@/schema/studySet.schema';
 import { ManyAnswer } from '@/types';
 
 export const useStudySetService = () => {
+  const getAdminStudySets = async (params?: IParamsBase) => {
+    const res: IListResponse<IStudySetAdmin[]> = await axiosClient.get(END_POINT.ADMIN.STUDY_SET.GET_ALL, { params });
+
+    return res.data;
+  };
+
+  const getAdminStudySetById = async (id: string) => {
+    const res: IResponse<IAdminStudySetDetail> = await axiosClient.get(END_POINT.ADMIN.STUDY_SET.GET_BY_ID(id));
+
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    } else {
+      return res.data;
+    }
+  };
+
+  const getAdminStatisticsStudySetById = async (id: string) => {
+    const res: IResponse<IAdminStudySetStatisticsResponse> = await axiosClient.get(
+      END_POINT.ADMIN.STUDY_SET.STATISTICS_BY_ID(id),
+    );
+
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    } else {
+      return res.data;
+    }
+  };
+
   const getStudySet = async (params?: IParamsBase) => {
     const res: IListResponse<IStudySetSearch[]> = await axiosClient.get(END_POINT.USER.STUDY_SET.LIST, {
       params,
@@ -122,5 +164,8 @@ export const useStudySetService = () => {
     submitStudyItem,
     submitManyStudyItem,
     getStudySetByIdForQuiz,
+    getAdminStudySets,
+    getAdminStudySetById,
+    getAdminStatisticsStudySetById,
   };
 };
