@@ -17,10 +17,23 @@ import { CreateStudySetFormValues } from '@/schema/studySet.schema';
 import { ManyAnswer } from '@/types';
 
 export const useStudySetService = () => {
-  const getAdminStudySets = async (params?: IParamsBase) => {
+  const getAdminStudySets = async (params?: IParamsBase & { isDeleted?: string }) => {
     const res: IListResponse<IStudySetAdmin[]> = await axiosClient.get(END_POINT.ADMIN.STUDY_SET.GET_ALL, { params });
 
     return res.data;
+  };
+
+  const restoreStudySet = async (id: string) => {
+    const res: IResponse<boolean> = await axiosClient.patch(END_POINT.ADMIN.STUDY_SET.RESTORE(id));
+    if (!res.success) {
+      toast.error(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return;
+    } else {
+      toast.success(MESSAGE_CODE[res.message_code as keyof typeof MESSAGE_CODE]);
+
+      return res.data;
+    }
   };
 
   const getAdminStudySetById = async (id: string) => {
@@ -167,5 +180,6 @@ export const useStudySetService = () => {
     getAdminStudySets,
     getAdminStudySetById,
     getAdminStatisticsStudySetById,
+    restoreStudySet,
   };
 };

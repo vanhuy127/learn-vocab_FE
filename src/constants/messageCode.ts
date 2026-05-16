@@ -31,6 +31,7 @@ export const MESSAGE_CODE = {
   REGISTER_SUCCESS: 'Đăng ký thành công',
   UPDATED_SUCCESS: 'Cập nhật thành công',
   DELETED_SUCCESS: 'Xóa thành công',
+  RESTORE_SUCCESS: 'Khôi phục thành công',
   GET_ALL_SUCCESS: 'Lấy danh sách thành công',
   GET_SUCCESS: 'Lấy dữ liệu thành công',
   NOT_FOUND: 'Không tìm thấy',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -13,29 +13,45 @@ import { useQueryParams } from '@/hooks/useQueryParams';
 import { useStudySetService } from '@/service/studySet.service';
 
 import { TableData } from './components/Table';
+import StatusFilter from '@/components/admin/statusFilter';
 
 const index = () => {
   const { query, setQuery } = useQueryParams();
   const { getAdminStudySets } = useStudySetService();
-  const { page = 1, search = '', size = MAX_PAGE_SHOW } = query;
+  const { page = 1, search = '', isDeleted = 'all', size = MAX_PAGE_SHOW } = query;
   const [searchInput, setSearchInput] = useState(search);
+  const [isDeletedFilter, setIsDeletedFilter] = useState(isDeleted);
   const debouncedSearch = useDebounce(searchInput);
 
   useEffect(() => {
-    if (debouncedSearch !== query.search) {
-      setQuery({ search: debouncedSearch, page: 1 });
+    if (debouncedSearch !== query.search || isDeletedFilter !== query.isDeleted) {
+      setQuery({ search: debouncedSearch, isDeleted: isDeletedFilter, page: 1 });
     }
-  }, [debouncedSearch]);
+  }, [debouncedSearch, isDeletedFilter]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['admin-study-sets', page, debouncedSearch, size],
+    queryKey: ['admin-study-sets', page, debouncedSearch, isDeletedFilter, size],
     queryFn: () =>
       getAdminStudySets({
         page,
         search: debouncedSearch,
+        isDeleted: isDeletedFilter,
         size,
       }),
   });
+
+  const isDeletedOptions = useMemo(
+    () => [
+      { label: 'Tất cả', value: 'all' },
+      { label: 'Đã xóa', value: 'true' },
+      { label: 'Chưa xóa', value: 'false' },
+    ],
+    [],
+  );
+
+  const handleIsDeletedChange = useCallback((value: string) => {
+    setIsDeletedFilter(value);
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -47,6 +63,15 @@ const index = () => {
         {/* search */}
         <div className="w-full">
           <SearchInput placeholder="Tìm kiếm học phần" searchTerm={searchInput} onChange={setSearchInput} />
+        </div>
+
+        <div className="w-full">
+          <StatusFilter
+            placeholder="Trạng thái xóa"
+            statusFilter={isDeletedFilter}
+            setStatusFilter={handleIsDeletedChange}
+            options={isDeletedOptions}
+          />
         </div>
       </div>
 
