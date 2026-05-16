@@ -65,6 +65,7 @@ export const END_POINT = {
     STUDY_SET: {
       GET_ALL: '/admin/study-sets',
       GET_BY_ID: (id: string) => `/admin/study-sets/${id}`,
+      RESTORE: (id: string) => `/admin/study-sets/${id}/restore`,
       STATISTICS_BY_ID: (id: string) => `/admin/study-sets/${id}/statistics`,
     },
   },
