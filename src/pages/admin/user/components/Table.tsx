@@ -8,8 +8,6 @@ import { DATE_PATTERN, ROUTE_PATH } from '@/constants';
 import { IUserRes } from '@/interface';
 import { formatDate } from '@/utils';
 
-import Action from './Action';
-
 interface TableDataProps {
   data?: IUserRes[];
   isLoading: boolean;
@@ -26,7 +24,6 @@ export const TableData = ({ data, isLoading = false }: TableDataProps) => {
           <TableHead className="text-center">Token</TableHead>
           <TableHead className="text-center">Ngày tạo</TableHead>
           <TableHead className="text-center">Cập nhật cuối</TableHead>
-          <TableHead className="text-center">Thao tác</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -51,9 +48,6 @@ export const TableData = ({ data, isLoading = false }: TableDataProps) => {
               </TableCell>
               <TableCell>{formatDate(user.createdAt, DATE_PATTERN.DATE_TIME)}</TableCell>
               <TableCell>{formatDate(user.updatedAt, DATE_PATTERN.DATE_TIME)}</TableCell>
-              <TableCell className="text-center">
-                <Action data={user} />
-              </TableCell>
             </TableRow>
           ))
         ) : (

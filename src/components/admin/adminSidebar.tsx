@@ -35,7 +35,7 @@ const AdminSidebar = () => {
   return (
     <Sidebar
       collapsible="icon"
-      className="sidebar-container group relative w-[65px] shadow-xl shadow-cyan-700/50 transition-all duration-300 ease-in-out dark:shadow-cyan-700"
+      className="sidebar-container group relative w-[65px] shadow-xl shadow-sidebar-ring/20 transition-all duration-300 ease-in-out"
     >
       <SidebarHeader className="border-sidebar-border border-b transition-all duration-300">
         <div className="my-3 flex h-[25px] items-center gap-2 px-2 transition-all duration-300">
@@ -64,7 +64,7 @@ const AdminSidebar = () => {
                       <a
                         href={item.url}
                         className={`flex items-center gap-2 rounded-md px-2 py-1 transition-all duration-300 ${
-                          isActive ? 'bg-sidebar-accent font-semibold text-cyan-800' : 'hover:bg-sidebar-accent'
+                          isActive ? 'bg-sidebar-accent font-semibold text-sidebar-accent-foreground' : 'hover:bg-sidebar-accent'
                         }`}
                       >
                         <item.icon size={64} className="transition-all duration-300" />
